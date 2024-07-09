@@ -59,7 +59,7 @@ const Header: React.FC<Props> = (props) => {
     >
       <div className="header-navigation">
         <img
-          src={props.sidebar ? "./assets/logo.png" : "./assets/logo_dark.png"}
+          src={props.sidebar ? "./assets/icon.png" : "./assets/logo.png"}
           alt="logo"
           style={{
             width: !props.sidebar ? "200px" : "auto",
