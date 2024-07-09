@@ -1,0 +1,9 @@
+export const URL_LOGIN = "/login";
+export const URL_SIGNUP = "/signup";
+export const URL_PET_HOME = "/home";
+export const URL_PET_PROFILE = "/home/profile";
+export const URL_PET_PASSWORD = "/home/password";
+export const URL_PET_MENU = "/home/menu/";
+export const URL_PET_MENU_ITEM = "/home/menu/:menuHash?";
+export const URL_PET_ORDER = "/home/order";
+export const URL_PET_ORDER_DETAILS = "/home/order/:orderId?";

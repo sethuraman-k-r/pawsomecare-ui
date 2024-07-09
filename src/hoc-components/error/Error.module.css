@@ -1,0 +1,42 @@
+.error-container {
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.error-banner {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-banner > h1 {
+  font-size: 8rem;
+}
+
+.error-banner > h1,
+.error-banner > span {
+  color: #fff;
+}
+
+.error-button {
+  height: 45px;
+  transition: 0.2s;
+}
+
+.error-button:focus {
+  box-shadow: none !important;
+}
+
+.error-button:hover {
+  background-color: var(--black) !important;
+  color: #fff !important;
+}

@@ -1,0 +1,36 @@
+.header-navigation {
+  flex-grow: 30;
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+}
+
+.header-logo {
+  max-height: 75px;
+  object-fit: cover;
+  height: 75px;
+}
+
+a.list-group-item.list-group-item-action {
+  margin: 10px auto !important;
+  border-radius: 11px;
+}
+
+.list-group-item {
+  background-color: transparent !important;
+  border: none !important;
+  color: #ff80b3 !important;
+  outline: none;
+  font-weight: 600;
+}
+
+.list-group-item.active {
+  background-color: #ffcce0 !important;
+  border-color: transparent !important;
+  color: #ff80b3 !important;
+  font-weight: 700;
+}
+
+.list-group-item:focus {
+  outline: none !important;
+}

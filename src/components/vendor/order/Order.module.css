@@ -1,0 +1,19 @@
+.order-table-info {
+    padding: 0.75rem !important;
+}
+
+.order-detail {
+    min-height: 350px !important;
+}
+
+.order-items {
+    min-height: 185px !important;
+    max-height: 185px !important;
+    overflow: auto;
+}
+
+@media (min-width: 768px) {
+    .order-box {
+        max-width: 400px !important;
+    }
+}

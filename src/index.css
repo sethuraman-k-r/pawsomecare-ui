@@ -1,0 +1,87 @@
+:root {
+  --black: rgba(29, 29, 29, 0.85);
+  --primary: rgb(254, 85, 154);
+  --secondary: #9b9b9b;
+  --dark: #4c1158;
+  --danger: #d93434;
+  --warning: #d78e4b;
+  --success: #35a872;
+  --info: #0f80e9;
+}
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+.h-fit {
+  height: fit-content !important;
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+.overflow-scroll {
+  overflow: scroll;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+.overflow-y-auto {
+  overflow-y: auto;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.overflow-y-hidden {
+  overflow-y: hidden;
+}
+
+.fit-cover {
+  object-fit: cover;
+}
+
+/** Custom Scrollbar */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: white;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 5px;
+}
+
+/** bootstrap override values */
+.text-secondary {
+  color: var(--secondary) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary) !important;
+}
+
+.text-primary {
+  color: var(--primary) !important;
+}
