@@ -4,11 +4,9 @@ import { connect, ConnectedProps } from "react-redux";
 import { FontAwesomeIcon as FAIcon } from "@fortawesome/react-fontawesome";
 import {
   faSignOutAlt,
-  faStoreAlt,
-  faLayerGroup,
-  faReceipt,
   faLock,
   faUser,
+  faPaw,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* JS Import */
@@ -79,11 +77,11 @@ const Header: React.FC<Props> = (props) => {
           >
             <span
               className={joinArrayToString([
-                "paw",
+                "badge",
                 props.sidebar ? "" : "mr-3",
               ])}
             >
-              <FAIcon icon={faUser} size={props.sidebar ? "2x" : "1x"} />
+              <FAIcon icon={faPaw} size={props.sidebar ? "2x" : "1x"} />
             </span>
             {!props.sidebar && "Pets"}
           </NavLink>
