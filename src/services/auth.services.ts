@@ -14,9 +14,11 @@ export const Auth = {
           token: response.headers.authorization,
         }))
         .then((value) => {
+          const roles = value.data.authorities.map((a:any) => a['authority']).join(",");
           resolve({
             ...(value.data as UserProfileProps),
             token: value.token,
+            role: roles
           });
         })
         .catch((err) => reject(err));

@@ -26,7 +26,8 @@ const UserProfile: React.FC = () => {
         setFirstname(userDetails.firstname);
         setLastname(userDetails.lastname || "");
         setUsername(userDetails.username);
-        setDob(userDetails.dob || "");
+        setDob((userDetails.dob || "").substr(0, 10));
+        setIncome(userDetails.annualIncome || "");
         setContact(userDetails.contact || "");
         setAddress(userDetails.address || "");
         setIsVerifying(false);

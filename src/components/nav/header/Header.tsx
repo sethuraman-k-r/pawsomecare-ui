@@ -19,6 +19,7 @@ import {
   URL_PET_MENU,
   URL_PET_ORDER,
   URL_PET_PASSWORD,
+  URL_PET_PETS,
 } from "../../../config/UrlRoute";
 import { RootState } from "../../../store/reducers";
 import { UserProfileProps } from "../../../props/VendorProps";
@@ -68,6 +69,24 @@ const Header: React.FC<Props> = (props) => {
           onClick={() => props.toggleSidebar(!props.sidebar)}
         />
         <div className="list-group">
+          <NavLink
+            to={URL_PET_PETS}
+            className={joinArrayToString([
+              "list-group-item list-group-item-action",
+              props.sidebar ? "text-center" : "",
+            ])}
+            activeClassName="active"
+          >
+            <span
+              className={joinArrayToString([
+                "paw",
+                props.sidebar ? "" : "mr-3",
+              ])}
+            >
+              <FAIcon icon={faUser} size={props.sidebar ? "2x" : "1x"} />
+            </span>
+            {!props.sidebar && "Pets"}
+          </NavLink>
           <NavLink
             to={URL_PET_PROFILE}
             className={joinArrayToString([
