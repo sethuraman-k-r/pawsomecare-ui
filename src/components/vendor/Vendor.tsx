@@ -74,15 +74,15 @@ const Vendor: React.FC<Props> = (props) => (
             <li className="nav-item" role="presentation">
               <button
                 className="nav-link"
-                id="profile-tab"
+                id="pets-tab"
                 data-toggle="tab"
-                data-target="#profile"
+                data-target="#pets"
                 type="button"
                 role="tab"
-                aria-controls="profile"
+                aria-controls="pets"
                 aria-selected="false"
               >
-                Profile
+                Pets
               </button>
             </li>
             <li className="nav-item" role="presentation">
@@ -111,11 +111,11 @@ const Vendor: React.FC<Props> = (props) => (
             </div>
             <div
               className="tab-pane fade"
-              id="profile"
+              id="pets"
               role="tabpanel"
-              aria-labelledby="profile-tab"
+              aria-labelledby="pets-tab"
             >
-              Profile
+              Pets
             </div>
             <div
               className="tab-pane fade"

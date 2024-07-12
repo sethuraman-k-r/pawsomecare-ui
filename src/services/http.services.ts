@@ -63,6 +63,38 @@ export function updatePetCategory(
   });
 }
 
+export function addNewUnadoptPet(
+  name: string,
+  dob: string,
+  gender: string,
+  weight: number,
+  category: number
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `admin/pet`,
+        {
+          name,
+          dob,
+          gender,
+          weight,
+          category,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function updateProfile(
   endpoint: string,
   email: string,
