@@ -32,6 +32,7 @@ const PetGrooming: React.FC = () => {
   const [time, setTime] = useState<number>(0);
   const [id, setId] = useState<number>(-1);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
+  const [isFetched, setIsFetched] = useState<boolean>(false);
 
   useEffect(() => {
     async function getPetGroom() {
@@ -41,10 +42,12 @@ const PetGrooming: React.FC = () => {
         setIsVerifying(false);
       } catch (err) {
         setIsVerifying(false);
+      } finally {
+        setIsFetched(true);
       }
     }
 
-    if (petGrooms.length === 0) {
+    if (petGrooms.length === 0 && !isFetched) {
       getPetGroom();
     }
   });
@@ -66,6 +69,7 @@ const PetGrooming: React.FC = () => {
       setTime(0);
       setIns(true);
       setIsVerifying(false);
+      setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
     }

@@ -25,7 +25,7 @@ const PetCategory: React.FC = () => {
   const [weight, setWeight] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [category, setCategory] = useState<string>("");
-
+  const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
 
   useEffect(() => {
@@ -36,10 +36,12 @@ const PetCategory: React.FC = () => {
         setIsVerifying(false);
       } catch (err) {
         setIsVerifying(false);
+      } finally {
+        setIsFetched(true);
       }
     }
 
-    if (petTypes.length === 0) {
+    if (petTypes.length === 0 && !isFetched) {
       getPetTypes();
     }
   });
@@ -55,6 +57,7 @@ const PetCategory: React.FC = () => {
       setPetTypes([]);
       setMode("");
       setIsVerifying(false);
+      setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
     }
