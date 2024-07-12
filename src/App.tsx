@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from "react-redux";
 /* COMPONENT Import */
 import Login from "./components/login/Login";
 import Error from "./hoc-components/error/Error";
-import Vendor from "./components/vendor/Vendor";
+import Pet from "./components/vendor/Pet";
 import GuardedRoute from "./hoc-components/guard/GuardedRoute";
 
 /* JS/TS Import */
@@ -31,7 +31,7 @@ const App: React.FC<Props> = (props) => (
       <Signup />
     </Route>
     <GuardedRoute
-      component={Vendor}
+      component={Pet}
       isAuthenticated={props.token !== ""}
       path={URL_PET_HOME}
     />

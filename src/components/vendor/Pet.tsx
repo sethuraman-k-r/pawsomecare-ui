@@ -5,17 +5,12 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import {
   URL_PET_PROFILE,
   URL_PET_HOME,
-  URL_PET_ORDER,
-  URL_PET_MENU_ITEM,
   URL_PET_PASSWORD,
   URL_PET_PETS,
 } from "../../config/UrlRoute";
 
 /* COMPONENT Import */
 import Header from "../nav/header/Header";
-import Profile from "./profile/Profile";
-import Menu from "./menu/Menu";
-import Order from "./order/Order";
 import { RootState } from "../../store/reducers";
 import { toggleSidebar } from "../../store/actions";
 import { connect, ConnectedProps } from "react-redux";
@@ -34,7 +29,7 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-const Vendor: React.FC<Props> = (props) => (
+const Pet: React.FC<Props> = (props) => (
   <div className="d-flex flex-row h-100">
     <div
       className={joinArrayToString([
@@ -130,15 +125,9 @@ const Vendor: React.FC<Props> = (props) => (
         <Route path={URL_PET_PASSWORD}>
           <Password />
         </Route>
-        <Route path={URL_PET_MENU_ITEM}>
-          <Menu />
-        </Route>
-        <Route path={URL_PET_ORDER}>
-          <Order />
-        </Route>
       </Switch>
     </div>
   </div>
 );
 
-export default connector(Vendor);
+export default connector(Pet);
