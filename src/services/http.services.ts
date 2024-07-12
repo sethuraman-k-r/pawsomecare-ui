@@ -223,6 +223,92 @@ export function updatePetVaccine(
   });
 }
 
+export function getPetMedicines(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("admin/pet/medicine", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function addPetMedicine(
+  name: string,
+  description: string,
+  cost: number,
+  count: number,
+  isInsAllowed: boolean,
+  expiresAt: string
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "admin/pet/medicine",
+        {
+          name,
+          description,
+          count,
+          cost,
+          isInsAllowed,
+          expiresAt,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function updatePetMedicine(
+  id: number,
+  name: string,
+  description: string,
+  cost: number,
+  count: number,
+  isInsAllowed: boolean,
+  expiresAt: string
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        "admin/pet/medicine",
+        {
+          id,
+          name,
+          description,
+          count,
+          cost,
+          isInsAllowed,
+          expiresAt,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function addNewUnadoptPet(
   name: string,
   dob: string,
