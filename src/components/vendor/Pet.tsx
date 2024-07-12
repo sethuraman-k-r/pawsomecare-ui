@@ -18,6 +18,8 @@ import { joinArrayToString } from "../../utils/array.utils";
 import Password from "./password/Password";
 import UserProfile from "./userprofile/UserProfile";
 import PetCategory from "./petcategory/PetCategory";
+import PetGrooming from "./petgrooming/PetGrooming";
+import PetVaccine from "./petvaccine/PetVaccine";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -83,6 +85,48 @@ const Pet: React.FC<Props> = (props) => (
             <li className="nav-item" role="presentation">
               <button
                 className="nav-link"
+                id="grooming-tab"
+                data-toggle="tab"
+                data-target="#grooming"
+                type="button"
+                role="tab"
+                aria-controls="grooming"
+                aria-selected="false"
+              >
+                Grooming
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="vaccine-tab"
+                data-toggle="tab"
+                data-target="#vaccine"
+                type="button"
+                role="tab"
+                aria-controls="vaccine"
+                aria-selected="false"
+              >
+                Vaccine
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="medicine-tab"
+                data-toggle="tab"
+                data-target="#medicine"
+                type="button"
+                role="tab"
+                aria-controls="medicine"
+                aria-selected="false"
+              >
+                Medicine
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
                 id="contact-tab"
                 data-toggle="tab"
                 data-target="#contact"
@@ -111,6 +155,30 @@ const Pet: React.FC<Props> = (props) => (
               aria-labelledby="pets-tab"
             >
               Pets
+            </div>
+            <div
+              className="tab-pane fade"
+              id="grooming"
+              role="tabpanel"
+              aria-labelledby="grooming-tab"
+            >
+              <PetGrooming />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="vaccine"
+              role="tabpanel"
+              aria-labelledby="vaccine-tab"
+            >
+              <PetVaccine />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="medicine"
+              role="tabpanel"
+              aria-labelledby="medicine-tab"
+            >
+              Medicine
             </div>
             <div
               className="tab-pane fade"

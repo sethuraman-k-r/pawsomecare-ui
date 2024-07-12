@@ -97,6 +97,8 @@ const PetCategory: React.FC = () => {
                   className="btn bg-primary form-control mb-4 text-white login-button w-25"
                   onClick={() => {
                     setMode("ADD");
+                    setType("");
+                    setStatus(true);
                   }}
                 >
                   Add Pet Type
