@@ -8,6 +8,7 @@ import {
   URL_PET_ORDER,
   URL_PET_MENU_ITEM,
   URL_PET_PASSWORD,
+  URL_PET_PETS,
 } from "../../config/UrlRoute";
 
 /* COMPONENT Import */
@@ -21,6 +22,7 @@ import { connect, ConnectedProps } from "react-redux";
 import { joinArrayToString } from "../../utils/array.utils";
 import Password from "./password/Password";
 import UserProfile from "./userprofile/UserProfile";
+import PetCategory from "./petcategory/PetCategory";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -49,9 +51,81 @@ const Vendor: React.FC<Props> = (props) => (
       ])}
     >
       <Switch>
-        <Redirect path={URL_PET_HOME} to={URL_PET_PROFILE} exact />
+        <Redirect path={URL_PET_HOME} to={URL_PET_PETS} exact />
         <Route path={URL_PET_PROFILE}>
           <UserProfile />
+        </Route>
+        <Route path={URL_PET_PETS}>
+          <ul className="nav nav-tabs" id="myTab" role="tablist">
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link active"
+                id="pet-types-tab"
+                data-toggle="tab"
+                data-target="#pet-types"
+                type="button"
+                role="tab"
+                aria-controls="pet-types"
+                aria-selected="true"
+              >
+                Pet Types
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="profile-tab"
+                data-toggle="tab"
+                data-target="#profile"
+                type="button"
+                role="tab"
+                aria-controls="profile"
+                aria-selected="false"
+              >
+                Profile
+              </button>
+            </li>
+            <li className="nav-item" role="presentation">
+              <button
+                className="nav-link"
+                id="contact-tab"
+                data-toggle="tab"
+                data-target="#contact"
+                type="button"
+                role="tab"
+                aria-controls="contact"
+                aria-selected="false"
+              >
+                Contact
+              </button>
+            </li>
+          </ul>
+          <div className="tab-content" id="myTabContent">
+            <div
+              className="tab-pane fade show active"
+              id="pet-types"
+              role="tabpanel"
+              aria-labelledby="pet-types-tab"
+            >
+              <PetCategory />
+            </div>
+            <div
+              className="tab-pane fade"
+              id="profile"
+              role="tabpanel"
+              aria-labelledby="profile-tab"
+            >
+              Profile
+            </div>
+            <div
+              className="tab-pane fade"
+              id="contact"
+              role="tabpanel"
+              aria-labelledby="contact-tab"
+            >
+              Contact
+            </div>
+          </div>
         </Route>
         <Route path={URL_PET_PASSWORD}>
           <Password />
