@@ -448,3 +448,20 @@ export function updatePetClinic(
       .catch((err) => reject(err));
   });
 }
+
+
+export function getUnadoptedPets(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("common/pet/unadopted", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}

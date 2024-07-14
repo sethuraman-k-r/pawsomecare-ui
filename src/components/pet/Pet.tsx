@@ -22,6 +22,7 @@ import PetGrooming from "./petgrooming/PetGrooming";
 import PetVaccine from "./petvaccine/PetVaccine";
 import PetMedicine from "./petmedicine/PetMedicine";
 import PetClinic from "./petclinic/PetClinic";
+import PetAdopt from "./petadopt/PetAdopt";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -156,7 +157,7 @@ const Pet: React.FC<Props> = (props) => (
               role="tabpanel"
               aria-labelledby="pets-tab"
             >
-              Pets
+              <PetAdopt />
             </div>
             <div
               className="tab-pane fade"
