@@ -21,6 +21,7 @@ import PetCategory from "./petcategory/PetCategory";
 import PetGrooming from "./petgrooming/PetGrooming";
 import PetVaccine from "./petvaccine/PetVaccine";
 import PetMedicine from "./petmedicine/PetMedicine";
+import PetClinic from "./petclinic/PetClinic";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -128,15 +129,15 @@ const Pet: React.FC<Props> = (props) => (
             <li className="nav-item" role="presentation">
               <button
                 className="nav-link"
-                id="contact-tab"
+                id="clinic-tab"
                 data-toggle="tab"
-                data-target="#contact"
+                data-target="#clinic"
                 type="button"
                 role="tab"
-                aria-controls="contact"
+                aria-controls="clinic"
                 aria-selected="false"
               >
-                Contact
+                Clinic
               </button>
             </li>
           </ul>
@@ -183,11 +184,11 @@ const Pet: React.FC<Props> = (props) => (
             </div>
             <div
               className="tab-pane fade"
-              id="contact"
+              id="clinic"
               role="tabpanel"
-              aria-labelledby="contact-tab"
+              aria-labelledby="clinic-tab"
             >
-              Contact
+              <PetClinic />
             </div>
           </div>
         </Route>
