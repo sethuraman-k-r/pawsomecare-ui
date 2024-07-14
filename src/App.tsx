@@ -5,7 +5,7 @@ import { connect, ConnectedProps } from "react-redux";
 /* COMPONENT Import */
 import Login from "./components/login/Login";
 import Error from "./hoc-components/error/Error";
-import Pet from "./components/vendor/Pet";
+import Pet from "./components/pet/Pet";
 import GuardedRoute from "./hoc-components/guard/GuardedRoute";
 
 /* JS/TS Import */
