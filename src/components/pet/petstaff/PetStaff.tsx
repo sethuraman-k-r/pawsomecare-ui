@@ -4,39 +4,33 @@ import React, { useState, Fragment, useEffect } from "react";
 import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 
 /* CSS Import */
-import "./PetClinic.css";
+import "./PetStaff.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
 import {
-  faCheck,
-  faEdit,
-  faEye,
-  faList,
-  faPlus,
-  faPlusCircle,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import {
-  addPetClinic,
-  getPetClinics,
-  updatePetClinic,
+  addPetMedicine,
+  getPetMedicines,
+  updatePetMedicine,
 } from "../../../services/http.services";
 
-const PetClinic: React.FC = () => {
-  const [clinics, setClinics] = useState<Array<any>>([]);
+const PetStaff: React.FC = () => {
+  const [medicines, setMedicines] = useState<Array<any>>([]);
   const [mode, setMode] = useState<string>("");
   const [name, setName] = useState<string>("");
+  const [cost, setCost] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
   const [desc, setDesc] = useState<string>("");
-  const [spl, setSpl] = useState<string>("");
-  const [address, setAddress] = useState<string>("");
+  const [ins, setIns] = useState<boolean>(true);
+  const [expire, setExpire] = useState<string>("");
   const [id, setId] = useState<number>(-1);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
 
   useEffect(() => {
-    async function getPetClinic() {
+    async function getPetMedicine() {
       try {
-        const cli: any = await getPetClinics();
-        setClinics(cli);
+        const med: any = await getPetMedicines();
+        setMedicines(med);
         setIsVerifying(false);
       } catch (err) {
         setIsVerifying(false);
@@ -45,27 +39,28 @@ const PetClinic: React.FC = () => {
       }
     }
 
-    if (clinics.length === 0 && !isFetched) {
-      getPetClinic();
+    if (medicines.length === 0 && !isFetched) {
+      getPetMedicine();
     }
   });
 
-  const doAddUpdateClinic = async () => {
+  const doAddUpdateMedicine = async () => {
     try {
       setIsVerifying(true);
       const responseCode =
         mode === "ADD"
-          ? await addPetClinic(name, desc, spl, address)
-          : await updatePetClinic(id, name, desc, spl, address);
+          ? await addPetMedicine(name, desc, cost, count, ins, expire)
+          : await updatePetMedicine(id, name, desc, cost, count, ins, expire);
       responseCode === 200 && alert("Updated successfully");
-      setClinics([]);
+      setMedicines([]);
       setMode("");
       setId(-1);
       setName("");
       setDesc("");
-      setSpl("");
-      setAddress("");
-      setDesc("");
+      setCost(0);
+      setCount(0);
+      setExpire("");
+      setIns(true);
       setIsVerifying(false);
       setIsFetched(false);
     } catch (err: any) {
@@ -86,7 +81,7 @@ const PetClinic: React.FC = () => {
       <div className="container-fluid d-flex flex-row row h-100 m-0 p-0">
         <div className="col-md-12 d-flex flex-column p-0">
           <div className="d-flex flex-row" style={{ flexGrow: 14 }}>
-            <div className="col-6 m-4">
+            <div className="col-7 m-4">
               <div className="form-group">
                 <button
                   className="btn bg-primary form-control mb-4 text-white login-button w-25"
@@ -95,77 +90,67 @@ const PetClinic: React.FC = () => {
                     setId(-1);
                     setName("");
                     setDesc("");
-                    setSpl("");
-                    setAddress("");
-                    setDesc("");
+                    setCost(0);
+                    setCount(0);
+                    setExpire("");
+                    setIns(true);
                   }}
                 >
-                  Add Clinic
+                  Add Medicine
                 </button>
                 <table className="table table-bordered">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
-                      <th scope="col">Clinic Name</th>
-                      <th scope="col">Specialities</th>
+                      <th scope="col">Medicine Name</th>
+                      <th scope="col">Per Cost</th>
+                      <th scope="col">Available Count</th>
+                      <th scope="col">Insurance</th>
+                      <th scope="col">Expires At</th>
                       <th scope="col" className="text-center">
                         Action
                       </th>
                     </tr>
                   </thead>
                   <tbody>
-                    {clinics.map((t) => (
+                    {medicines.map((t) => (
                       <tr key={t.id}>
                         <th scope="row">{t.id}</th>
                         <td>
                           {t.name}
                           <br />
                           <span className="small">{t.description}</span>
-                          <br />
-                          <span className="small font-italic">{t.address}</span>
                         </td>
-                        <td>{t.specialities}</td>
+                        <td className="text-capitalize">{t.perCost}</td>
+                        <td className="text-capitalize">{t.count}</td>
+                        <td>
+                          {t.isInsAllowed ? (
+                            <FontAwesomeIcon icon={faCheck} size={"1x"} />
+                          ) : (
+                            <FontAwesomeIcon icon={faTimes} size={"1x"} />
+                          )}
+                        </td>
+                        <td className="text-capitalize">
+                          {t.expiresAt && t.expiresAt.substr(0, 10)}
+                        </td>
                         <td className="text-center">
                           <FontAwesomeIcon
                             icon={faEdit}
                             size={"1x"}
-                            className="mx-2 cursor-pointer text-dark-primary"
-                            title="Edit Clinic"
+                            color="red"
+                            className="mx-2 cursor-pointer"
+                            title="Edit Medicine"
                             onClick={() => {
                               setMode("EDIT");
                               setId(t.id);
                               setName(t.name);
                               setDesc(t.description);
-                              setSpl(t.specialities);
-                              setAddress(t.address);
-                            }}
-                          />
-                          <FontAwesomeIcon
-                            icon={faPlusCircle}
-                            size={"1x"}
-                            className="mx-2 cursor-pointer text-primary"
-                            title="Add Staff"
-                            onClick={() => {
-                              // setMode("EDIT");
-                              // setId(t.id);
-                              // setName(t.name);
-                              // setDesc(t.description);
-                              // setSpl(t.specialities);
-                              // setAddress(t.address);
-                            }}
-                          />
-                          <FontAwesomeIcon
-                            icon={faList}
-                            size={"1x"}
-                            className="mx-2 cursor-pointer text-secondary"
-                            title="View All Staffs"
-                            onClick={() => {
-                              // setMode("EDIT");
-                              // setId(t.id);
-                              // setName(t.name);
-                              // setDesc(t.description);
-                              // setSpl(t.specialities);
-                              // setAddress(t.address);
+                              setCost(t.perCost);
+                              setCount(t.count);
+                              setExpire(
+                                t.expiresAt && t.expiresAt.substr(0, 10)
+                              );
+                              setIns(t.isInsAllowed);
                             }}
                           />
                         </td>
@@ -178,10 +163,10 @@ const PetClinic: React.FC = () => {
             {mode !== "" && (
               <div className="user-form m-4">
                 <h6 className="font-weight-bold mb-3">
-                  {mode === "ADD" ? "Add New Clinic" : "Update Clinic"}
+                  {mode === "ADD" ? "Add New Medicine" : "Update Medicine"}
                 </h6>
                 <div className="form-group">
-                  <label className="text-secondary">Clinic Name</label>
+                  <label className="text-secondary">Medicine Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -190,13 +175,42 @@ const PetClinic: React.FC = () => {
                   />
                 </div>
                 <div className="form-group">
-                  <label className="text-secondary">Clinic Specialities</label>
-                  <textarea
-                    rows={3}
+                  <label className="text-secondary">Per Cost</label>
+                  <input
+                    type="number"
                     className="form-control"
-                    value={spl}
-                    onChange={(ev) => doUpdateFields(ev, setSpl)}
-                  ></textarea>
+                    value={cost}
+                    onChange={(ev) => setCost(ev.target.valueAsNumber)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Available Count</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={count}
+                    onChange={(ev) => setCount(ev.target.valueAsNumber)}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Expires At</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={expire}
+                    onChange={(ev) => setExpire(ev.target.value)}
+                  />
+                </div>
+                <div className="form-group form-check">
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    checked={ins}
+                    onChange={(ev) => setIns(ev.target.checked)}
+                  />
+                  <label className="text-secondary form-check-label">
+                    Insurance
+                  </label>
                 </div>
                 <div className="form-group">
                   <label className="text-secondary">Description</label>
@@ -208,18 +222,9 @@ const PetClinic: React.FC = () => {
                   ></textarea>
                 </div>
                 <div className="form-group">
-                  <label className="text-secondary">Address</label>
-                  <textarea
-                    rows={3}
-                    className="form-control"
-                    value={address}
-                    onChange={(ev) => doUpdateFields(ev, setAddress)}
-                  ></textarea>
-                </div>
-                <div className="form-group">
                   <button
                     className="btn bg-primary form-control mt-2 mb-2 text-white login-button"
-                    onClick={doAddUpdateClinic}
+                    onClick={doAddUpdateMedicine}
                   >
                     {mode === "ADD" ? "Create" : "Update"}
                   </button>
@@ -233,4 +238,4 @@ const PetClinic: React.FC = () => {
   );
 };
 
-export default PetClinic;
+export default PetStaff;

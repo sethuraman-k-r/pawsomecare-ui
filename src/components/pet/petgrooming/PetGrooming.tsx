@@ -139,8 +139,7 @@ const PetGrooming: React.FC = () => {
                           <FontAwesomeIcon
                             icon={faEdit}
                             size={"1x"}
-                            color="red"
-                            className="mx-2 cursor-pointer"
+                            className="mx-2 cursor-pointer text-dark-primary"
                             title="Edit Pet Type"
                             onClick={() => {
                               setMode("EDIT");

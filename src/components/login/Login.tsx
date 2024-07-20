@@ -125,7 +125,7 @@ const Login: React.FC<Props> = (props) => {
               </div>
               <div className="form-group">
                 <button
-                  className="btn bg-primary form-control mt-4 mb-2 text-white login-button"
+                  className="btn bg-primary form-control font-weight-bold mt-4 mb-2 text-white login-button"
                   onClick={doLogin}
                 >
                   Login

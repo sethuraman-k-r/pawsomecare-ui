@@ -1,6 +1,7 @@
 :root {
   --black: rgba(29, 29, 29, 0.85);
-  --primary: rgb(254, 85, 154);
+  --dark-primary: #001d44;
+  --primary: #45bfae;
   --secondary: #9b9b9b;
   --dark: #4c1158;
   --danger: #d93434;
@@ -84,4 +85,29 @@ body {
 
 .text-primary {
   color: var(--primary) !important;
+}
+
+.text-dark-primary {
+  color: var(--dark-primary) !important;
+}
+
+a.bg-primary:focus,
+a.bg-primary:hover,
+button.bg-primary:focus,
+button.bg-primary:hover {
+  background-color: var(--dark-primary) !important;
+}
+
+.btn.focus,
+.btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(69, 191, 174, 0.25);
+}
+
+.form-control:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 0.2rem rgba(69, 191, 174, 0.25);
+}
+
+a.text-primary:focus, a.text-primary:hover {
+  color: var(--dark-primary) !important;
 }

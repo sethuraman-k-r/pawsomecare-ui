@@ -14,8 +14,6 @@ import { deleteAuthToken } from "../../../store/actions";
 import {
   URL_LOGIN,
   URL_PET_PROFILE,
-  URL_PET_MENU,
-  URL_PET_ORDER,
   URL_PET_PASSWORD,
   URL_PET_PETS,
 } from "../../../config/UrlRoute";
@@ -53,7 +51,7 @@ const Header: React.FC<Props> = (props) => {
     <div
       className="d-flex flex-column h-100 p-2"
       style={{
-        backgroundColor: "#ffe6f0",
+        backgroundColor: "var(--dark-primary)",
       }}
     >
       <div className="header-navigation">
