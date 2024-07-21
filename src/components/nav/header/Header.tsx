@@ -6,7 +6,7 @@ import {
   faSignOutAlt,
   faLock,
   faUser,
-  faPaw,
+  faUserCog,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* JS Import */
@@ -15,7 +15,7 @@ import {
   URL_LOGIN,
   URL_PET_PROFILE,
   URL_PET_PASSWORD,
-  URL_PET_PETS,
+  URL_PET_ADMIN,
 } from "../../../config/UrlRoute";
 import { RootState } from "../../../store/reducers";
 import { UserProfileProps } from "../../../props/VendorProps";
@@ -61,12 +61,12 @@ const Header: React.FC<Props> = (props) => {
           style={{
             width: !props.sidebar ? "200px" : "auto",
           }}
-          className="img-fluid my-4 mx-3 header-logo"
+          className="img-fluid my-4 mx-3 header-logo cursor-pointer"
           onClick={() => props.toggleSidebar(!props.sidebar)}
         />
         <div className="list-group">
           <NavLink
-            to={URL_PET_PETS}
+            to={URL_PET_ADMIN}
             className={joinArrayToString([
               "list-group-item list-group-item-action",
               props.sidebar ? "text-center" : "",
@@ -79,9 +79,9 @@ const Header: React.FC<Props> = (props) => {
                 props.sidebar ? "" : "mr-3",
               ])}
             >
-              <FAIcon icon={faPaw} size={props.sidebar ? "2x" : "1x"} />
+              <FAIcon icon={faUserCog} size={props.sidebar ? "2x" : "1x"} />
             </span>
-            {!props.sidebar && "Pets"}
+            {!props.sidebar && "Manage"}
           </NavLink>
           <NavLink
             to={URL_PET_PROFILE}

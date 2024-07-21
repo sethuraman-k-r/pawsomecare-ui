@@ -1,6 +1,7 @@
 :root {
   --black: rgba(29, 29, 29, 0.85);
   --dark-primary: #001d44;
+  --dark-primary-transparent: rgba(0, 30, 68, 0.877);
   --primary: #45bfae;
   --secondary: #9b9b9b;
   --dark: #4c1158;
