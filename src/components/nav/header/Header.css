@@ -6,9 +6,9 @@
 }
 
 .header-logo {
-  max-height: 75px;
+  max-height: 100px;
   object-fit: cover;
-  height: 75px;
+  height: 100px;
 }
 
 a.list-group-item.list-group-item-action {

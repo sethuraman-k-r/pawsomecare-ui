@@ -56,10 +56,12 @@ const Header: React.FC<Props> = (props) => {
     >
       <div className="header-navigation">
         <img
-          src={props.sidebar ? "./assets/icon.png" : "./assets/logo.png"}
+          src={"./assets/logo.svg"}
           alt="logo"
           style={{
-            width: !props.sidebar ? "200px" : "auto",
+            width: !props.sidebar ? "100px" : "auto",
+            background: "white",
+            borderRadius: "5px",
           }}
           className="img-fluid my-4 mx-3 header-logo cursor-pointer"
           onClick={() => props.toggleSidebar(!props.sidebar)}

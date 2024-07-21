@@ -47,7 +47,7 @@ const PetAdmin: React.FC<Props> = (props) => (
     <div
       className={joinArrayToString([
         "p-0 overflow-hidden px-0",
-        props.showSidebar ? "col-md-9" : "col-md-7",
+        props.showSidebar ? "col-md-9" : "col-md-8",
       ])}
     >
       <Switch>

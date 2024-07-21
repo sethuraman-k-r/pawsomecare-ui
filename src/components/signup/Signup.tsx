@@ -100,13 +100,15 @@ const Signup: React.FC<Props> = (props) => {
             style={{ flexGrow: 14 }}
           >
             <div className="login-form">
-              <img
-                src={"./assets/icon.png"}
-                width="40"
-                height="40"
-                alt="icon"
-                className="mb-4"
-              />
+              <div className="text-center">
+                <img
+                  src={"./assets/logo.svg"}
+                  width="100"
+                  height="100"
+                  alt="icon"
+                  className="mb-4"
+                />
+              </div>
               <div className="form-group">
                 <label className="text-secondary">Email</label>
                 <input
