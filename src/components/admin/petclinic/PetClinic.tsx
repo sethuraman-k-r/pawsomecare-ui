@@ -17,6 +17,7 @@ import {
   updatePetClinic,
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
+import Modal from "../../../hoc-components/UI/modal/Modal";
 
 const PetClinic: React.FC = () => {
   const [clinics, setClinics] = useState<Array<any>>([]);
@@ -67,6 +68,9 @@ const PetClinic: React.FC = () => {
       setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
+    } finally {
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
     }
   };
 
@@ -82,20 +86,26 @@ const PetClinic: React.FC = () => {
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <div className="col-12 my-4">
         <div className="form-group">
-          <button
-            className="btn bg-primary form-control mb-4 text-white login-button w-25"
-            onClick={() => {
-              setMode("ADD");
-              setId(-1);
-              setName("");
-              setDesc("");
-              setSpl("");
-              setAddress("");
-              setDesc("");
-            }}
-          >
-            Add Clinic
-          </button>
+          <div className="d-flex justify-content-between">
+            <h3>Clinic Details</h3>
+            <button
+              className="btn bg-primary mb-4 text-white login-button"
+              data-toggle="modal"
+              data-target="#petModal"
+              onClick={() => {
+                setMode("ADD");
+                setId(-1);
+                setName("");
+                setDesc("");
+                setSpl("");
+                setAddress("");
+                setDesc("");
+              }}
+            >
+              <FontAwesomeIcon icon={faPlusCircle} />
+              &nbsp; Add Clinic
+            </button>
+          </div>
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -125,6 +135,8 @@ const PetClinic: React.FC = () => {
                       size={"1x"}
                       className="mx-2 cursor-pointer text-dark-primary"
                       title="Edit Clinic"
+                      data-toggle="modal"
+                      data-target="#petModal"
                       onClick={() => {
                         setMode("EDIT");
                         setId(t.id);
@@ -169,57 +181,57 @@ const PetClinic: React.FC = () => {
           </table>
         </div>
       </div>
-      {mode !== "" && (
-        <div className="user-form m-4">
-          <h6 className="font-weight-bold mb-3">
-            {mode === "ADD" ? "Add New Clinic" : "Update Clinic"}
-          </h6>
-          <div className="form-group">
-            <label className="text-secondary">Clinic Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(ev) => doUpdateFields(ev, setName)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Clinic Specialities</label>
-            <textarea
-              rows={3}
-              className="form-control"
-              value={spl}
-              onChange={(ev) => doUpdateFields(ev, setSpl)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Description</label>
-            <textarea
-              rows={3}
-              className="form-control"
-              value={desc}
-              onChange={(ev) => doUpdateFields(ev, setDesc)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Address</label>
-            <textarea
-              rows={3}
-              className="form-control"
-              value={address}
-              onChange={(ev) => doUpdateFields(ev, setAddress)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <button
-              className="btn bg-primary form-control mt-2 mb-2 text-white login-button"
-              onClick={doAddUpdateClinic}
-            >
-              {mode === "ADD" ? "Create" : "Update"}
-            </button>
-          </div>
-        </div>
-      )}
+
+      <Modal
+        title={mode === "ADD" ? "Add New Clinic" : "Update Clinic"}
+        submitText={mode === "ADD" ? "Create" : "Update"}
+        doSubmit={doAddUpdateClinic}
+      >
+        {mode !== "" && (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Clinic Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(ev) => doUpdateFields(ev, setName)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Clinic Specialities</label>
+              <textarea
+                rows={3}
+                className="form-control"
+                value={spl}
+                onChange={(ev) => doUpdateFields(ev, setSpl)}
+                required
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Description</label>
+              <textarea
+                rows={3}
+                className="form-control"
+                value={desc}
+                onChange={(ev) => doUpdateFields(ev, setDesc)}
+                required
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Address</label>
+              <textarea
+                rows={3}
+                className="form-control"
+                value={address}
+                onChange={(ev) => doUpdateFields(ev, setAddress)}
+                required
+              ></textarea>
+            </div>
+          </Fragment>
+        )}
+      </Modal>
     </Fragment>
   );
 };

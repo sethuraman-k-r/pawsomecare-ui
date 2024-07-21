@@ -43,6 +43,9 @@ const PetAdopt: React.FC = () => {
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <div className="col-12 my-4">
         <div className="form-group">
+          <div className="d-flex justify-content-between">
+            <h3>Unadopted Pets</h3>
+          </div>
           <table className="table table-bordered">
             <thead>
               <tr>

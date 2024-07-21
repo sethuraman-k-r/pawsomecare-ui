@@ -14,6 +14,7 @@ import {
   updatePetCategory,
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
+import Modal from "../../../hoc-components/UI/modal/Modal";
 
 const PetCategory: React.FC = () => {
   const [petTypes, setPetTypes] = useState<Array<any>>([]);
@@ -25,7 +26,6 @@ const PetCategory: React.FC = () => {
   const [gender, setGender] = useState<string>("");
   const [weight, setWeight] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number>(0);
-  const [category, setCategory] = useState<string>("");
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
 
@@ -61,6 +61,9 @@ const PetCategory: React.FC = () => {
       setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
+    } finally {
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
     }
   };
 
@@ -79,6 +82,9 @@ const PetCategory: React.FC = () => {
       setIsVerifying(false);
     } catch (err: any) {
       setIsVerifying(false);
+    } finally {
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
     }
   };
 
@@ -94,16 +100,22 @@ const PetCategory: React.FC = () => {
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <div className="col-12 my-4">
         <div className="form-group">
-          <button
-            className="btn bg-primary form-control mb-4 text-white login-button w-25"
-            onClick={() => {
-              setMode("ADD");
-              setType("");
-              setStatus(true);
-            }}
-          >
-            Add Pet Type
-          </button>
+          <div className="d-flex justify-content-between">
+            <h3>Pet Category</h3>
+            <button
+              className="btn bg-primary mb-4 text-white login-button"
+              data-toggle="modal"
+              data-target="#petModal"
+              onClick={() => {
+                setMode("ADD");
+                setType("");
+                setStatus(true);
+              }}
+            >
+              <FontAwesomeIcon icon={faPlusCircle} />
+              &nbsp; Add Pet Type
+            </button>
+          </div>
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -127,6 +139,8 @@ const PetCategory: React.FC = () => {
                       size={"1x"}
                       className="mx-2 cursor-pointer text-dark-primary"
                       title="Edit Pet Type"
+                      data-toggle="modal"
+                      data-target="#petModal"
                       onClick={() => {
                         setMode("EDIT");
                         setType(t.name);
@@ -139,6 +153,8 @@ const PetCategory: React.FC = () => {
                         size={"1x"}
                         className="text-primary mx-2 cursor-pointer"
                         title="Add Pet for Adoption"
+                        data-toggle="modal"
+                        data-target="#petModal"
                         onClick={() => {
                           setMode("NEW_PET");
                           setCategory(t.name);
@@ -153,105 +169,104 @@ const PetCategory: React.FC = () => {
           </table>
         </div>
       </div>
-      {mode !== "" && mode !== "NEW_PET" && (
-        <div className="user-form m-4">
-          <h6 className="font-weight-bold mb-3">
-            {mode === "ADD" ? "Create Pet Type" : "Update Pet Type"}
-          </h6>
-          <div className="form-group">
-            <label className="text-secondary">Pet Type</label>
-            <input
-              type="text"
-              className="form-control"
-              value={type}
-              onChange={(ev) => doUpdateFields(ev, setType)}
-            />
-          </div>
-          <div className="form-group form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={status}
-              onChange={(ev) => setStatus(ev.target.checked)}
-            />
-            <label className="text-secondary form-check-label">Active</label>
-          </div>
-          <div className="form-group">
-            <button
-              className="btn bg-primary form-control mt-2 mb-2 text-white login-button"
-              onClick={doUpdateType}
-            >
-              {mode === "ADD" ? "Create" : "Update"}
-            </button>
-          </div>
-        </div>
-      )}
+      <Modal
+        title={
+          mode === "NEW_PET"
+            ? "Add New Pet"
+            : mode === "ADD"
+            ? "Create Pet Type"
+            : "Update Pet Type"
+        }
+        submitText={
+          mode === "NEW_PET" ? "Create" : mode === "ADD" ? "Create" : "Update"
+        }
+        doSubmit={mode === "NEW_PET" ? doAddNewUnadoptPet : doUpdateType}
+      >
+        {mode !== "" && mode !== "NEW_PET" && (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Pet Type</label>
+              <input
+                type="text"
+                className="form-control"
+                value={type}
+                onChange={(ev) => doUpdateFields(ev, setType)}
+                required
+              />
+            </div>
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                checked={status}
+                onChange={(ev) => setStatus(ev.target.checked)}
+              />
+              <label className="text-secondary form-check-label">Active</label>
+            </div>
+          </Fragment>
+        )}
 
-      {mode === "NEW_PET" && (
-        <div className="user-form m-4">
-          <h6 className="font-weight-bold mb-3">
-            Add new {category} for adoption
-          </h6>
-          <div className="form-group">
-            <label className="text-secondary">Pet Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(ev) => doUpdateFields(ev, setName)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Date of Birth</label>
-            <input
-              type="date"
-              className="form-control"
-              value={dob}
-              onChange={(ev) => doUpdateFields(ev, setDob)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Gender</label>
-            <div className="form-check">
+        {mode === "NEW_PET" && (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Pet Name</label>
               <input
-                type="radio"
-                className="form-check-input"
-                name="gender"
-                value={"MALE"}
-                onChange={(ev) => doUpdateFields(ev, setGender)}
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(ev) => doUpdateFields(ev, setName)}
+                required
               />
-              <label className="text-secondary form-check-label">M</label>
             </div>
-            <div className="form-check">
+            <div className="form-group">
+              <label className="text-secondary">Date of Birth</label>
               <input
-                type="radio"
-                className="form-check-input"
-                name="gender"
-                value={"FEMALE"}
-                onChange={(ev) => doUpdateFields(ev, setGender)}
+                type="date"
+                className="form-control"
+                value={dob}
+                onChange={(ev) => doUpdateFields(ev, setDob)}
+                required
               />
-              <label className="text-secondary form-check-label">F</label>
             </div>
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Weight (in grams)</label>
-            <input
-              type="number"
-              className="form-control"
-              value={weight}
-              onChange={(ev) => setWeight(ev.target.valueAsNumber)}
-            />
-          </div>
-          <div className="form-group">
-            <button
-              className="btn bg-primary form-control mt-2 mb-2 text-white login-button"
-              onClick={doAddNewUnadoptPet}
-            >
-              Add New Unadopt Pet
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="form-group">
+              <label className="text-secondary">Gender</label>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  name="gender"
+                  value={"MALE"}
+                  onChange={(ev) => doUpdateFields(ev, setGender)}
+                  required
+                />
+                <label className="text-secondary form-check-label">M</label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  name="gender"
+                  value={"FEMALE"}
+                  onChange={(ev) => doUpdateFields(ev, setGender)}
+                  required
+                />
+                <label className="text-secondary form-check-label">F</label>
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Weight (in grams)</label>
+              <input
+                type="number"
+                className="form-control"
+                value={weight}
+                onChange={(ev) => setWeight(ev.target.valueAsNumber)}
+                required
+                min={5}
+              />
+            </div>
+          </Fragment>
+        )}
+      </Modal>
     </Fragment>
   );
 };

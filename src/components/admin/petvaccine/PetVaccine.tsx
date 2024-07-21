@@ -6,13 +6,19 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 /* CSS Import */
 import "./PetVaccine.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCheck,
+  faEdit,
+  faPlusCircle,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   addPetVaccine,
   getPetVaccines,
   updatePetVaccine,
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
+import Modal from "../../../hoc-components/UI/modal/Modal";
 
 const PetVaccine: React.FC = () => {
   const [vaccines, setVaccines] = useState<Array<any>>([]);
@@ -62,6 +68,9 @@ const PetVaccine: React.FC = () => {
       setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
+    } finally {
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
     }
   };
 
@@ -77,19 +86,25 @@ const PetVaccine: React.FC = () => {
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <div className="col-12 my-4">
         <div className="form-group">
-          <button
-            className="btn bg-primary form-control mb-4 text-white login-button w-25"
-            onClick={() => {
-              setMode("ADD");
-              setId(-1);
-              setName("");
-              setDesc("");
-              setCost(0);
-              setIns(true);
-            }}
-          >
-            Add Vaccine
-          </button>
+          <div className="d-flex justify-content-between">
+            <h3>Vaccine Details</h3>
+            <button
+              className="btn bg-primary mb-4 text-white login-button"
+              data-toggle="modal"
+              data-target="#petModal"
+              onClick={() => {
+                setMode("ADD");
+                setId(-1);
+                setName("");
+                setDesc("");
+                setCost(0);
+                setIns(true);
+              }}
+            >
+              <FontAwesomeIcon icon={faPlusCircle} />
+              &nbsp; Add Vaccine
+            </button>
+          </div>
           <table className="table table-bordered">
             <thead>
               <tr>
@@ -125,6 +140,8 @@ const PetVaccine: React.FC = () => {
                       size={"1x"}
                       className="mx-2 cursor-pointer text-dark-primary"
                       title="Edit Pet Type"
+                      data-toggle="modal"
+                      data-target="#petModal"
                       onClick={() => {
                         setMode("EDIT");
                         setId(t.id);
@@ -141,57 +158,59 @@ const PetVaccine: React.FC = () => {
           </table>
         </div>
       </div>
-      {mode !== "" && (
-        <div className="user-form m-4">
-          <h6 className="font-weight-bold mb-3">
-            {mode === "ADD" ? "Add New Vaccine" : "Update Vaccine Service"}
-          </h6>
-          <div className="form-group">
-            <label className="text-secondary">Vaccine Name</label>
-            <input
-              type="text"
-              className="form-control"
-              value={name}
-              onChange={(ev) => doUpdateFields(ev, setName)}
-            />
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Vaccine Cost</label>
-            <input
-              type="number"
-              className="form-control"
-              value={cost}
-              onChange={(ev) => setCost(ev.target.valueAsNumber)}
-            />
-          </div>
-          <div className="form-group form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={ins}
-              onChange={(ev) => setIns(ev.target.checked)}
-            />
-            <label className="text-secondary form-check-label">Insurance</label>
-          </div>
-          <div className="form-group">
-            <label className="text-secondary">Description</label>
-            <textarea
-              rows={3}
-              className="form-control"
-              value={desc}
-              onChange={(ev) => doUpdateFields(ev, setDesc)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <button
-              className="btn bg-primary form-control mt-2 mb-2 text-white login-button"
-              onClick={doAddUpdateVaccine}
-            >
-              {mode === "ADD" ? "Create" : "Update"}
-            </button>
-          </div>
-        </div>
-      )}
+
+      <Modal
+        title={mode === "ADD" ? "Add New Vaccine" : "Update Vaccine Service"}
+        submitText={mode === "ADD" ? "Create" : "Update"}
+        doSubmit={doAddUpdateVaccine}
+      >
+        {mode !== "" && (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Vaccine Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(ev) => doUpdateFields(ev, setName)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Vaccine Cost</label>
+              <input
+                type="number"
+                className="form-control"
+                value={cost}
+                onChange={(ev) => setCost(ev.target.valueAsNumber)}
+                min={3}
+                required
+              />
+            </div>
+            <div className="form-group form-check">
+              <input
+                type="checkbox"
+                className="form-check-input"
+                checked={ins}
+                onChange={(ev) => setIns(ev.target.checked)}
+              />
+              <label className="text-secondary form-check-label">
+                Insurance
+              </label>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Description</label>
+              <textarea
+                rows={3}
+                className="form-control"
+                value={desc}
+                onChange={(ev) => doUpdateFields(ev, setDesc)}
+                required
+              ></textarea>
+            </div>
+          </Fragment>
+        )}
+      </Modal>
     </Fragment>
   );
 };
