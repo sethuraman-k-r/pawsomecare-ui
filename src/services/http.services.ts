@@ -1,7 +1,5 @@
 import axios from "axios";
-import { VendorProfileProps, CuisineType } from "../props/VendorProps";
-import { ItemProps } from "../props/MenuProps";
-import { generateMenus } from "./menu.services";
+import { VendorProfileProps } from "../props/VendorProps";
 import { Auth } from "./auth.services";
 
 export function getPetCategory(): Promise<any> {
@@ -448,7 +446,6 @@ export function updatePetClinic(
       .catch((err) => reject(err));
   });
 }
-
 
 export function getUnadoptedPets(): Promise<any> {
   return new Promise((resolve, reject) => {

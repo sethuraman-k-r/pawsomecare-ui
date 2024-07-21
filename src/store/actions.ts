@@ -12,7 +12,7 @@ import {
   MenuActionProps,
   SidebarProps,
 } from "../props/ActionProps";
-import { UserProfileProps, VendorProfileProps } from "../props/VendorProps";
+import { UserProfileProps } from "../props/VendorProps";
 import { MenuDataProps } from "../props/MenuProps";
 
 export const addAuthToken = (
