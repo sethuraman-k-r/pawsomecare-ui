@@ -16,6 +16,7 @@ const UserProfile: React.FC = () => {
   const [income, setIncome] = useState<number>(0);
   const [address, setAddress] = useState<string>("");
   const [dob, setDob] = useState<string>("");
+  const [gender, setGender] = useState<string>("MALE");
   const [contact, setContact] = useState<string>("");
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
 
@@ -27,6 +28,7 @@ const UserProfile: React.FC = () => {
         setLastname(userDetails.lastname || "");
         setUsername(userDetails.username);
         setDob((userDetails.dob || "").substr(0, 10));
+        setGender(userDetails.gender || "MALE");
         setIncome(userDetails.annualIncome || "");
         setContact(userDetails.contact || "");
         setAddress(userDetails.address || "");
@@ -54,7 +56,8 @@ const UserProfile: React.FC = () => {
         dob,
         income,
         address,
-        contact
+        contact,
+        gender
       );
       responseCode === 200 && alert("User updated successfully");
       setIsVerifying(false);
@@ -128,6 +131,33 @@ const UserProfile: React.FC = () => {
                     value={income}
                     onChange={(ev) => setIncome(ev.target.valueAsNumber)}
                   />
+                </div>
+              </div>
+              <div className="form-group">
+                <label className="text-secondary">Gender</label>
+                <div className="form-check">
+                  <input
+                    type="radio"
+                    className="form-check-input"
+                    name="gender"
+                    value={"MALE"}
+                    onChange={(ev) => doUpdateFields(ev, setGender)}
+                    checked={gender === "MALE"}
+                    required
+                  />
+                  <label className="text-secondary form-check-label">M</label>
+                </div>
+                <div className="form-check">
+                  <input
+                    type="radio"
+                    className="form-check-input"
+                    name="gender"
+                    value={"FEMALE"}
+                    checked={gender === "FEMALE"}
+                    onChange={(ev) => doUpdateFields(ev, setGender)}
+                    required
+                  />
+                  <label className="text-secondary form-check-label">F</label>
                 </div>
               </div>
               <div className="form-group">

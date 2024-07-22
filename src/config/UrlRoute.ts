@@ -3,6 +3,7 @@ export const URL_SIGNUP = "/signup";
 export const URL_PET_HOME = "/home";
 export const URL_PET_PROFILE = "/home/profile";
 export const URL_PET_ADMIN = "/home/admin";
+export const URL_PET_STAFF = "/home/staff";
 export const URL_PET_ADMIN_PET_TYPES = "/home/admin/pet/types";
 export const URL_PET_ADMIN_PETS = "/home/admin/pets";
 export const URL_PET_ADMIN_CLINC = "/home/admin/clinic";

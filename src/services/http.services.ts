@@ -462,3 +462,39 @@ export function getUnadoptedPets(): Promise<any> {
       .catch((err) => reject(err));
   });
 }
+
+export function addPetStaff(
+  name: string,
+  email: string,
+  gender: string,
+  staffId: number,
+  fee: number,
+  role: string,
+  clinics: Array<any>
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "admin/pet/staff",
+        {
+          staffName: name,
+          email,
+          staffId,
+          gender,
+          clinicIds: clinics,
+          consultFee: fee,
+          userRole: role,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}

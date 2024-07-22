@@ -77,7 +77,8 @@ export const Auth = {
     dob: string,
     income: number,
     address: string,
-    contact: string
+    contact: string,
+    gender: string
   ): Promise<any | null> {
     return new Promise((resolve, reject) => {
       axios
@@ -90,6 +91,7 @@ export const Auth = {
             income,
             address,
             contact,
+            gender
           },
           {
             headers: {

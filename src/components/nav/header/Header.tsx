@@ -7,6 +7,7 @@ import {
   faLock,
   faUser,
   faUserCog,
+  faCalendarCheck,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* JS Import */
@@ -16,9 +17,9 @@ import {
   URL_PET_PROFILE,
   URL_PET_PASSWORD,
   URL_PET_ADMIN,
+  URL_PET_STAFF,
 } from "../../../config/UrlRoute";
 import { RootState } from "../../../store/reducers";
-import { UserProfileProps } from "../../../props/VendorProps";
 import { joinArrayToString } from "../../../utils/array.utils";
 
 /* CSS Import */
@@ -26,8 +27,8 @@ import "./Header.css";
 import { Auth } from "../../../services/auth.services";
 
 const mapStateToProps = (state: RootState) => ({
-  profile: state.profile as UserProfileProps,
   sidebar: state.sidebar,
+  auth: state.auth,
 });
 
 const connector = connect(mapStateToProps, { deleteAuthToken });
@@ -67,24 +68,49 @@ const Header: React.FC<Props> = (props) => {
           onClick={() => props.toggleSidebar(!props.sidebar)}
         />
         <div className="list-group">
-          <NavLink
-            to={URL_PET_ADMIN}
-            className={joinArrayToString([
-              "list-group-item list-group-item-action",
-              props.sidebar ? "text-center" : "",
-            ])}
-            activeClassName="active"
-          >
-            <span
+          {props.auth.role === "ROLE_ADMIN" && (
+            <NavLink
+              to={URL_PET_ADMIN}
               className={joinArrayToString([
-                "badge",
-                props.sidebar ? "" : "mr-3",
+                "list-group-item list-group-item-action",
+                props.sidebar ? "text-center" : "",
               ])}
+              activeClassName="active"
             >
-              <FAIcon icon={faUserCog} size={props.sidebar ? "2x" : "1x"} />
-            </span>
-            {!props.sidebar && "Manage"}
-          </NavLink>
+              <span
+                className={joinArrayToString([
+                  "badge",
+                  props.sidebar ? "" : "mr-3",
+                ])}
+              >
+                <FAIcon icon={faUserCog} size={props.sidebar ? "2x" : "1x"} />
+              </span>
+              {!props.sidebar && "Manage"}
+            </NavLink>
+          )}
+          {props.auth && props.auth.role === "ROLE_VETERINARIAN" && (
+            <NavLink
+              to={URL_PET_STAFF}
+              className={joinArrayToString([
+                "list-group-item list-group-item-action",
+                props.sidebar ? "text-center" : "",
+              ])}
+              activeClassName="active"
+            >
+              <span
+                className={joinArrayToString([
+                  "badge",
+                  props.sidebar ? "" : "mr-3",
+                ])}
+              >
+                <FAIcon
+                  icon={faCalendarCheck}
+                  size={props.sidebar ? "2x" : "1x"}
+                />
+              </span>
+              {!props.sidebar && "Appointment"}
+            </NavLink>
+          )}
           <NavLink
             to={URL_PET_PROFILE}
             className={joinArrayToString([

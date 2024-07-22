@@ -6,6 +6,7 @@ import {
   URL_PET_ADMIN,
   URL_PET_PASSWORD,
   URL_PET_PROFILE,
+  URL_PET_STAFF,
 } from "../../config/UrlRoute";
 import PetAdmin from "../admin/PetAdmin";
 import Error from "../../hoc-components/error/Error";
@@ -35,10 +36,15 @@ const Home: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const userRole = props.user.role;
-    if (userRole === "ADMIN") {
+    if (userRole === "ROLE_ADMIN") {
       history.push(URL_PET_ADMIN);
+    } else if (
+      userRole === "ROLE_VETERINARIAN" ||
+      userRole === "ROLE_GROOMING"
+    ) {
+      history.push(URL_PET_STAFF);
     }
-  });
+  }, [props.user.role]);
 
   return (
     <div className="d-flex flex-row h-100">
@@ -52,9 +58,12 @@ const Home: React.FC<Props> = (props) => {
       </div>
 
       <Switch>
-        <Redirect from="/home" to={URL_PET_ADMIN} exact />
+        <Redirect from="/home" to={URL_PET_PROFILE} exact />
         <Route path={URL_PET_ADMIN}>
           <PetAdmin />
+        </Route>
+        <Route path={URL_PET_STAFF}>
+          <h1>NICE</h1>
         </Route>
         <Route path={URL_PET_PROFILE}>
           <UserProfile />
