@@ -30,7 +30,7 @@ const PetStaff: React.FC = () => {
   const [gender, setGender] = useState<string>("MALE");
   const [staffClinic, setStaffClinic] = useState<Array<number>>([]);
   const [clinics, setClinics] = useState<Array<any>>([]);
-  const [id, setId] = useState<number>(-1);
+  // const [id, setId] = useState<number>(-1);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
 

@@ -11,6 +11,7 @@ import {
   URL_PET_ADMIN_MEDICINE,
   URL_PET_ADMIN_VACCINE,
   URL_PET_ADMIN_GROOM,
+  URL_PET_ADMIN_LICENSE,
 } from "../../config/UrlRoute";
 
 /* COMPONENT Import */
@@ -28,6 +29,7 @@ import AdminHeader from "./header/AdminHeader";
 import PetStaff from "./petstaff/PetStaff";
 
 import Error from "../../hoc-components/error/Error";
+import PetLicense from "./petlicense/PetLicense";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -72,6 +74,9 @@ const PetAdmin: React.FC<Props> = (props) => (
         </Route>
         <Route path={URL_PET_ADMIN_GROOM}>
           <PetGrooming />
+        </Route>
+        <Route path={URL_PET_ADMIN_LICENSE}>
+          <PetLicense />
         </Route>
         <Route path="**">
           <Error />

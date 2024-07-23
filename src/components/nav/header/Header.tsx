@@ -8,6 +8,7 @@ import {
   faUser,
   faUserCog,
   faCalendarCheck,
+  faPaw,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* JS Import */
@@ -18,6 +19,7 @@ import {
   URL_PET_PASSWORD,
   URL_PET_ADMIN,
   URL_PET_STAFF,
+  URL_PET_USERS,
 } from "../../../config/UrlRoute";
 import { RootState } from "../../../store/reducers";
 import { joinArrayToString } from "../../../utils/array.utils";
@@ -109,6 +111,26 @@ const Header: React.FC<Props> = (props) => {
                 />
               </span>
               {!props.sidebar && "Appointment"}
+            </NavLink>
+          )}
+          {props.auth && props.auth.role === "ROLE_CLIENT" && (
+            <NavLink
+              to={URL_PET_USERS}
+              className={joinArrayToString([
+                "list-group-item list-group-item-action",
+                props.sidebar ? "text-center" : "",
+              ])}
+              activeClassName="active"
+            >
+              <span
+                className={joinArrayToString([
+                  "badge",
+                  props.sidebar ? "" : "mr-3",
+                ])}
+              >
+                <FAIcon icon={faPaw} size={props.sidebar ? "2x" : "1x"} />
+              </span>
+              {!props.sidebar && "My Pets"}
             </NavLink>
           )}
           <NavLink

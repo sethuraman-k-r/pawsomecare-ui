@@ -18,11 +18,11 @@ export function getPetCategory(): Promise<any> {
   });
 }
 
-export function addPetCategory(petType: string): Promise<any> {
+export function addPetCategory(petType: string, cost: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        "admin/pet/category?name=" + petType,
+        "admin/pet/category?name=" + petType + "&cost=" + cost,
         {},
         {
           headers: {
@@ -40,12 +40,13 @@ export function addPetCategory(petType: string): Promise<any> {
 
 export function updatePetCategory(
   petType: string,
-  status: string
+  status: string,
+  cost: number
 ): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
       .put(
-        `admin/pet/category?name=${petType}&active=${status}`,
+        `admin/pet/category?name=${petType}&active=${status}&cost=${cost}`,
         {},
         {
           headers: {
@@ -485,6 +486,136 @@ export function addPetStaff(
           consultFee: fee,
           userRole: role,
         },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function adoptNewPet(petId: number): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `user/adopt/new`,
+        {
+          petId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function getMyPets(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`user/pets`, {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function updatePet(
+  petId: number,
+  petName: string,
+  petWeight: number
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `user/pet`,
+        {
+          petId,
+          petName,
+          petWeight,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function applyPetLicense(
+  petId: number,
+  cost: number,
+  desc: string
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        `user/pet/license`,
+        {
+          petId,
+          cost,
+          description: desc,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function getAppliedPetLicense(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`admin/pet/license`, {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function approvePetLicense(id: number): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        `admin/pet/license/${id}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${Auth.getToken()}`,

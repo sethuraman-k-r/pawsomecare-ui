@@ -7,6 +7,7 @@ import {
   URL_PET_PASSWORD,
   URL_PET_PROFILE,
   URL_PET_STAFF,
+  URL_PET_USERS,
 } from "../../config/UrlRoute";
 import PetAdmin from "../admin/PetAdmin";
 import Error from "../../hoc-components/error/Error";
@@ -15,6 +16,7 @@ import Header from "../nav/header/Header";
 import UserProfile from "../admin/userprofile/UserProfile";
 import Password from "../admin/password/Password";
 import { toggleSidebar } from "../../store/actions";
+import PetClient from "../client/PetClient";
 
 const mapStateToProps = (state: RootState) => ({
   user: state.auth,
@@ -43,6 +45,8 @@ const Home: React.FC<Props> = (props) => {
       userRole === "ROLE_GROOMING"
     ) {
       history.push(URL_PET_STAFF);
+    } else {
+      history.push(URL_PET_USERS);
     }
   }, [props.user.role]);
 
@@ -64,6 +68,9 @@ const Home: React.FC<Props> = (props) => {
         </Route>
         <Route path={URL_PET_STAFF}>
           <h1>NICE</h1>
+        </Route>
+        <Route path={URL_PET_USERS}>
+          <PetClient />
         </Route>
         <Route path={URL_PET_PROFILE}>
           <UserProfile />

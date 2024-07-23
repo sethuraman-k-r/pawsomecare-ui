@@ -25,6 +25,7 @@ const PetCategory: React.FC = () => {
   const [dob, setDob] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [weight, setWeight] = useState<number>(0);
+  const [licenseCost, setLicenseCost] = useState<number>(0);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
@@ -52,8 +53,12 @@ const PetCategory: React.FC = () => {
       setIsVerifying(true);
       const responseCode =
         mode === "ADD"
-          ? await addPetCategory(type)
-          : await updatePetCategory(type, status ? "true" : "false");
+          ? await addPetCategory(type, licenseCost)
+          : await updatePetCategory(
+              type,
+              status ? "true" : "false",
+              licenseCost
+            );
       responseCode === 200 && alert("Updated successfully");
       setPetTypes([]);
       setMode("");
@@ -109,6 +114,7 @@ const PetCategory: React.FC = () => {
               onClick={() => {
                 setMode("ADD");
                 setType("");
+                setLicenseCost(0);
                 setStatus(true);
               }}
             >
@@ -122,6 +128,7 @@ const PetCategory: React.FC = () => {
                 <th scope="col">#</th>
                 <th scope="col">Type</th>
                 <th scope="col">Status</th>
+                <th scope="col">License Cost</th>
                 <th scope="col" className="text-center">
                   Action
                 </th>
@@ -133,6 +140,7 @@ const PetCategory: React.FC = () => {
                   <th scope="row">{t.id}</th>
                   <td className="text-capitalize">{t.name}</td>
                   <td>{t.isActive ? "Active" : "Inactive"}</td>
+                  <td>{t.licenseCost}</td>
                   <td className="text-center">
                     <FontAwesomeIcon
                       icon={faEdit}
@@ -145,6 +153,7 @@ const PetCategory: React.FC = () => {
                         setMode("EDIT");
                         setType(t.name);
                         setStatus(t.isActive);
+                        setLicenseCost(t.licenseCost);
                       }}
                     />
                     {t.isActive && (
@@ -157,7 +166,6 @@ const PetCategory: React.FC = () => {
                         data-target="#petModal"
                         onClick={() => {
                           setMode("NEW_PET");
-                          setCategory(t.name);
                           setCategoryId(t.id);
                         }}
                       />
@@ -202,6 +210,17 @@ const PetCategory: React.FC = () => {
                 onChange={(ev) => setStatus(ev.target.checked)}
               />
               <label className="text-secondary form-check-label">Active</label>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">License Cost</label>
+              <input
+                type="number"
+                className="form-control"
+                value={licenseCost}
+                onChange={(ev) => setLicenseCost(ev.target.valueAsNumber)}
+                required
+                min={5}
+              />
             </div>
           </Fragment>
         )}

@@ -6,6 +6,7 @@ import {
   faClinicMedical,
   faDog,
   faHospitalUser,
+  faIdBadge,
   faPaw,
   faSyringe,
   faTablets,
@@ -20,6 +21,7 @@ import {
   URL_PET_ADMIN_MEDICINE,
   URL_PET_ADMIN_VACCINE,
   URL_PET_ADMIN_GROOM,
+  URL_PET_ADMIN_LICENSE,
 } from "../../../config/UrlRoute";
 
 /* CSS Import */
@@ -104,6 +106,16 @@ const AdminHeader: React.FC = () => {
               <FAIcon icon={faBath} size="1x" />
             </span>
             Grooming
+          </NavLink>
+          <NavLink
+            to={URL_PET_ADMIN_LICENSE}
+            className={"list-group-item list-group-item-action"}
+            activeClassName="active"
+          >
+            <span className={"badge mr-3"}>
+              <FAIcon icon={faIdBadge} size="1x" />
+            </span>
+            License
           </NavLink>
         </div>
       </div>

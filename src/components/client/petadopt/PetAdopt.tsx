@@ -5,7 +5,7 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 
 /* CSS Import */
 import "./PetAdopt.css";
-import { getUnadoptedPets } from "../../../services/http.services";
+import { adoptNewPet, getUnadoptedPets } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 
 const PetAdopt: React.FC = () => {
@@ -37,13 +37,6 @@ const PetAdopt: React.FC = () => {
     return Math.abs(Math.round(diff));
   };
 
-  // const doUpdateFields = (
-  //   ev: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  //   updateFn: React.Dispatch<React.SetStateAction<string>>
-  // ) => {
-  //   updateFn(ev.target.value);
-  // };
-
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
@@ -61,17 +54,29 @@ const PetAdopt: React.FC = () => {
                 <th scope="col">Gender</th>
                 <th scope="col">Pet Type</th>
                 <th scope="col">Age (in months)</th>
+                <th scope="col">Action</th>
               </tr>
             </thead>
             <tbody>
-              {pets.map((t) => (
+              {pets.map((t, i) => (
                 <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
+                  <th scope="row">{i + 1}</th>
                   <td>{t.petName}</td>
                   <td>{t.weight}</td>
                   <td>{t.gender}</td>
                   <td className="text-capitalize">{t.petCategory.name}</td>
                   <td>{getMonths(t.dob)}</td>
+                  <td>
+                    <button
+                      className="bg-primary text-white btn"
+                      onClick={async () => {
+                        await adoptNewPet(t.id);
+                        setIsFetched(false);
+                      }}
+                    >
+                      Adopt
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>

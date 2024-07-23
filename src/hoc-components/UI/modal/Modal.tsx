@@ -24,7 +24,14 @@ const Modal: React.FC = ({ children, title, submitText, doSubmit }) => {
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <form className="mx-4" onSubmit={doSubmit}>
+          <form
+            className="mx-4"
+            onSubmit={(ev) => {
+              ev.preventDefault();
+              doSubmit();
+            }}
+            method="POST"
+          >
             <div className="modal-body">
               {Children.map(children, (child, index) => (
                 <Fragment key={index}>{child}</Fragment>
