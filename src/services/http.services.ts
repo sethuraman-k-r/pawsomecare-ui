@@ -500,6 +500,22 @@ export function addPetStaff(
   });
 }
 
+export function getPetStaffs(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("admin/pet/staff", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function adoptNewPet(petId: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axios

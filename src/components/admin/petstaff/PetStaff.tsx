@@ -7,7 +7,9 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 import "./PetStaff.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faAt,
   faCheck,
+  faInfoCircle,
   faPlusCircle,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +17,7 @@ import {
   addPetStaff,
   getPetClinics,
   getPetMedicines,
+  getPetStaffs,
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
@@ -28,8 +31,7 @@ const PetStaff: React.FC = () => {
   const [fee, setFee] = useState<number>(0);
   const [role, setRole] = useState<string>("");
   const [gender, setGender] = useState<string>("MALE");
-  const [staffClinic, setStaffClinic] = useState<Array<number>>([]);
-  const [clinics, setClinics] = useState<Array<any>>([]);
+  const [staffClinic, setStaffClinic] = useState<number>(-1);
   // const [id, setId] = useState<number>(-1);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
@@ -37,9 +39,7 @@ const PetStaff: React.FC = () => {
   useEffect(() => {
     async function getStaffs() {
       try {
-        const staff: any = await getPetMedicines();
-        const cli: any = await getPetClinics();
-        setClinics(cli);
+        const staff: any = await getPetStaffs();
         setStaffs(staff);
         setIsVerifying(false);
       } catch (err) {
@@ -64,24 +64,27 @@ const PetStaff: React.FC = () => {
         staffId,
         fee,
         role,
-        staffClinic
+        [staffClinic]
       );
 
       responseCode === 200 && alert("Updated successfully");
       setStaffs([]);
       setMode("");
-      setId(-1);
+      // setId(-1);
       setName("");
       setEmail("");
       setGender("");
       setStaffId(0);
       setFee(0);
       setRole("");
-      setStaffClinic([]);
+      setStaffClinic(-1);
       setIsVerifying(false);
       setIsFetched(false);
     } catch (err: any) {
       setIsVerifying(false);
+    } finally {
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
     }
   };
 
@@ -107,14 +110,14 @@ const PetStaff: React.FC = () => {
               data-target="#petModal"
               onClick={() => {
                 setMode("ADD");
-                setId(-1);
+                // setId(-1);
                 setName("");
                 setEmail("");
                 setGender("");
                 setStaffId(0);
                 setFee(0);
                 setRole("");
-                setStaffClinic([]);
+                setStaffClinic(-1);
               }}
             >
               <FontAwesomeIcon icon={faPlusCircle} />
@@ -125,33 +128,54 @@ const PetStaff: React.FC = () => {
             <thead>
               <tr>
                 <th scope="col">#</th>
-                <th scope="col">Medicine Name</th>
-                <th scope="col">Per Cost</th>
-                <th scope="col">Available Count</th>
-                <th scope="col">Insurance</th>
-                <th scope="col">Expires At</th>
+                <th scope="col">Staff Name</th>
+                <th scope="col">Fee</th>
+                <th scope="col">Role</th>
+                <th scope="col">Clinic</th>
               </tr>
             </thead>
             <tbody>
-              {staffs.map((t) => (
+              {staffs.map((t, i) => (
                 <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
+                  <th scope="row">{i + 1}</th>
                   <td>
-                    {t.name}
-                    <br />
-                    <span className="small">{t.description}</span>
+                    {t.username}
+                    &nbsp;
+                    <FontAwesomeIcon
+                      icon={faInfoCircle}
+                      size={"1x"}
+                      title={`Staff #: ${t.staff.id}`}
+                      onClick={() => navigator.clipboard.writeText(t.staff.id)}
+                    />
+                    &nbsp;
+                    <FontAwesomeIcon
+                      icon={faAt}
+                      size={"1x"}
+                      title={`${t.email}`}
+                      onClick={() => navigator.clipboard.writeText(t.email)}
+                    />
                   </td>
-                  <td className="text-capitalize">{t.perCost}</td>
-                  <td className="text-capitalize">{t.count}</td>
-                  <td>
-                    {t.isInsAllowed ? (
-                      <FontAwesomeIcon icon={faCheck} size={"1x"} />
-                    ) : (
-                      <FontAwesomeIcon icon={faTimes} size={"1x"} />
-                    )}
-                  </td>
+                  <td>{t.staff.consultFee}</td>
                   <td className="text-capitalize">
-                    {t.expiresAt && t.expiresAt.substr(0, 10)}
+                    {t.authorities
+                      .map((a: any) => a.authority.replace("ROLE_", ""))
+                      .join(", ")}
+                  </td>
+                  <td>
+                    <tbody>
+                      {t.staff.clinics.map((c: any, i: number) => (
+                        <p>
+                          <strong>
+                            {i + 1}
+                            {". " + c.name}
+                          </strong>
+                          <br />
+                          <i>{c.specialities}</i>
+                          <br />
+                          <i>{c.address}</i>
+                        </p>
+                      ))}
+                    </tbody>
                   </td>
                 </tr>
               ))}
@@ -240,18 +264,11 @@ const PetStaff: React.FC = () => {
                 className="form-control"
                 title="clinic"
                 onChange={(ev) => {
-                  if (staffClinic.includes(+ev.target.value)) {
-                    staffClinic.splice(
-                      staffClinic.indexOf(+ev.target.value, 1)
-                    );
-                  } else {
-                    staffClinic.push(+ev.target.value);
-                  }
-                  console.log(staffClinic)
+                  setStaffClinic(+ev.target.value);
                 }}
                 required
-                multiple
               >
+                <option value="-1"></option>
                 {clinics.map((c, i) => {
                   return (
                     <option value={c.id} key={i}>
@@ -274,6 +291,7 @@ const PetStaff: React.FC = () => {
                 required
                 value={role}
               >
+                <option value="-1"></option>
                 <option value="VETERINARIAN">VETERINARIAN</option>
                 <option value="GROOMING">GROOM</option>
               </select>

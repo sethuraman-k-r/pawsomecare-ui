@@ -112,6 +112,7 @@ const PetClinic: React.FC = () => {
                 <th scope="col">#</th>
                 <th scope="col">Clinic Name</th>
                 <th scope="col">Specialities</th>
+                <th scope="col">Description</th>
                 <th scope="col" className="text-center">
                   Action
                 </th>
@@ -124,11 +125,10 @@ const PetClinic: React.FC = () => {
                   <td>
                     {t.name}
                     <br />
-                    <span className="small">{t.description}</span>
-                    <br />
                     <span className="small font-italic">{t.address}</span>
                   </td>
                   <td>{t.specialities}</td>
+                  <td>{t.description}</td>
                   <td className="text-center">
                     <FontAwesomeIcon
                       icon={faEdit}
@@ -144,34 +144,6 @@ const PetClinic: React.FC = () => {
                         setDesc(t.description);
                         setSpl(t.specialities);
                         setAddress(t.address);
-                      }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faPlusCircle}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-primary"
-                      title="Add Staff"
-                      onClick={() => {
-                        // setMode("EDIT");
-                        // setId(t.id);
-                        // setName(t.name);
-                        // setDesc(t.description);
-                        // setSpl(t.specialities);
-                        // setAddress(t.address);
-                      }}
-                    />
-                    <FontAwesomeIcon
-                      icon={faList}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-secondary"
-                      title="View All Staffs"
-                      onClick={() => {
-                        // setMode("EDIT");
-                        // setId(t.id);
-                        // setName(t.name);
-                        // setDesc(t.description);
-                        // setSpl(t.specialities);
-                        // setAddress(t.address);
                       }}
                     />
                   </td>

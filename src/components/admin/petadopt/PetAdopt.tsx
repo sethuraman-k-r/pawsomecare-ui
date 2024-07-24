@@ -64,9 +64,9 @@ const PetAdopt: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {pets.map((t) => (
+              {pets.map((t, i) => (
                 <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
+                  <th scope="row">{i + 1}</th>
                   <td>{t.petName}</td>
                   <td>{t.weight}</td>
                   <td>{t.gender}</td>
