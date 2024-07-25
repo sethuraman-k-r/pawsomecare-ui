@@ -8,15 +8,12 @@ import "./PetStaff.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAt,
-  faCheck,
   faInfoCircle,
   faPlusCircle,
-  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   addPetStaff,
   getPetClinics,
-  getPetMedicines,
   getPetStaffs,
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
@@ -24,6 +21,7 @@ import Modal from "../../../hoc-components/UI/modal/Modal";
 
 const PetStaff: React.FC = () => {
   const [staffs, setStaffs] = useState<Array<any>>([]);
+  const [clinics, setClinics] = useState<Array<any>>([]);
   const [mode, setMode] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -40,7 +38,9 @@ const PetStaff: React.FC = () => {
     async function getStaffs() {
       try {
         const staff: any = await getPetStaffs();
+        const cli: any = await getPetClinics("admin");
         setStaffs(staff);
+        setClinics(cli);
         setIsVerifying(false);
       } catch (err) {
         setIsVerifying(false);
@@ -162,20 +162,24 @@ const PetStaff: React.FC = () => {
                       .join(", ")}
                   </td>
                   <td>
-                    <tbody>
-                      {t.staff.clinics.map((c: any, i: number) => (
-                        <p>
-                          <strong>
-                            {i + 1}
-                            {". " + c.name}
-                          </strong>
-                          <br />
-                          <i>{c.specialities}</i>
-                          <br />
-                          <i>{c.address}</i>
-                        </p>
-                      ))}
-                    </tbody>
+                    <table>
+                      <tbody>
+                        {t.staff.clinics.map((c: any, i: number) => (
+                          <tr key={i}>
+                            <td>
+                              <strong>
+                                {i + 1}
+                                {". " + c.name}
+                              </strong>
+                              <br />
+                              <i>{c.specialities}</i>
+                              <br />
+                              <i>{c.address}</i>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   </td>
                 </tr>
               ))}
@@ -268,7 +272,7 @@ const PetStaff: React.FC = () => {
                 }}
                 required
               >
-                <option value="-1"></option>
+                <option value={-1}></option>
                 {clinics.map((c, i) => {
                   return (
                     <option value={c.id} key={i}>

@@ -72,6 +72,7 @@ const PetAdopt: React.FC = () => {
                       onClick={async () => {
                         await adoptNewPet(t.id);
                         setIsFetched(false);
+                        setPets([]);
                       }}
                     >
                       Adopt

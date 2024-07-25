@@ -6,11 +6,7 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 /* CSS Import */
 import "./PetClinic.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEdit,
-  faList,
-  faPlusCircle,
-} from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   addPetClinic,
   getPetClinics,
@@ -33,7 +29,7 @@ const PetClinic: React.FC = () => {
   useEffect(() => {
     async function getPetClinic() {
       try {
-        const cli: any = await getPetClinics();
+        const cli: any = await getPetClinics("admin");
         setClinics(cli);
         setIsVerifying(false);
       } catch (err) {
@@ -125,10 +121,16 @@ const PetClinic: React.FC = () => {
                   <td>
                     {t.name}
                     <br />
-                    <span className="small font-italic">{t.address}</span>
+                    <span className="small font-italic">
+                      <address>{t.address}</address>
+                    </span>
                   </td>
-                  <td>{t.specialities}</td>
-                  <td>{t.description}</td>
+                  <td>
+                    <pre>{t.specialities}</pre>
+                  </td>
+                  <td>
+                    <pre>{t.description}</pre>
+                  </td>
                   <td className="text-center">
                     <FontAwesomeIcon
                       icon={faEdit}

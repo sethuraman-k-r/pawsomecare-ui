@@ -17,6 +17,7 @@ import UserProfile from "../admin/userprofile/UserProfile";
 import Password from "../admin/password/Password";
 import { toggleSidebar } from "../../store/actions";
 import PetClient from "../client/PetClient";
+import PetStaff from "../staff/PetStaff";
 
 const mapStateToProps = (state: RootState) => ({
   user: state.auth,
@@ -67,7 +68,7 @@ const Home: React.FC<Props> = (props) => {
           <PetAdmin />
         </Route>
         <Route path={URL_PET_STAFF}>
-          <h1>NICE</h1>
+          <PetStaff />
         </Route>
         <Route path={URL_PET_USERS}>
           <PetClient />

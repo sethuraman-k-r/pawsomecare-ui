@@ -78,6 +78,22 @@ export function getPetGrooming(): Promise<any> {
   });
 }
 
+export function getPetGroomings(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("user/pet/grooming", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function addPetGrooming(
   name: string,
   description: string,
@@ -370,10 +386,10 @@ export function updateProfile(
   });
 }
 
-export function getPetClinics(): Promise<any> {
+export function getPetClinics(role: string): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get("admin/pet/clinic", {
+      .get(`${role}/pet/clinic`, {
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
@@ -516,6 +532,90 @@ export function getPetStaffs(): Promise<any> {
   });
 }
 
+export function getPetServices(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("user/pet/service", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function bookPetAppt(
+  petId: number,
+  clinicId: number,
+  staffId: number,
+  service: string,
+  apptTime: string,
+  reason: string,
+  grooms: Array<number>
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "user/pet/book/appointment",
+        {
+          petId,
+          clinicId,
+          staffId,
+          service,
+          apptTime,
+          reason,
+          grooms
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function getPetAppointments(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("user/pet/appointments", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function getStaffPetAppointments(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("staff/pet/appointments", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function adoptNewPet(petId: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
@@ -638,6 +738,22 @@ export function approvePetLicense(id: number): Promise<any> {
           },
         }
       )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function getClinicStaffs(clinic: number): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("user/pet/staff?clinic=" + clinic, {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
       .then((response) => response.data)
       .then((value) => {
         resolve(value);

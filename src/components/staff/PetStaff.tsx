@@ -2,13 +2,7 @@ import React, { Fragment } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 /* TS Import */
-import {
-  URL_PET_USERS,
-  URL_PET_USERS_ADOPT,
-  URL_PET_USERS_APPT,
-  URL_PET_USERS_LICENSE,
-  URL_PET_USERS_PETS,
-} from "../../config/UrlRoute";
+import { URL_PET_STAFF, URL_PET_STAFF_APPT } from "../../config/UrlRoute";
 
 /* COMPONENT Import */
 import { RootState } from "../../store/reducers";
@@ -17,10 +11,8 @@ import { connect, ConnectedProps } from "react-redux";
 import { joinArrayToString } from "../../utils/array.utils";
 
 import Error from "../../hoc-components/error/Error";
-import ClientHeader from "./header/ClientHeader";
 import PetAdopt from "./petadopt/PetAdopt";
-import MyPet from "./mypets/MyPet";
-import PetLicense from "./petlicense/PetLicense";
+import StaffHeader from "./header/StaffHeader";
 import PetAppt from "./petappt/PetAppt";
 
 const mapStateToProps = (state: RootState) => ({
@@ -33,10 +25,10 @@ const connector = connect(mapStateToProps, {
 
 type Props = ConnectedProps<typeof connector>;
 
-const PetClient: React.FC<Props> = (props) => (
+const PetStaff: React.FC<Props> = (props) => (
   <Fragment>
     <div className={"p-0 col-md-2"}>
-      <ClientHeader />
+      <StaffHeader />
     </div>
     <div
       className={joinArrayToString([
@@ -45,17 +37,8 @@ const PetClient: React.FC<Props> = (props) => (
       ])}
     >
       <Switch>
-        <Redirect path={URL_PET_USERS} to={URL_PET_USERS_PETS} exact />
-        <Route path={URL_PET_USERS_PETS}>
-          <MyPet />
-        </Route>
-        <Route path={URL_PET_USERS_ADOPT}>
-          <PetAdopt />
-        </Route>
-        <Route path={URL_PET_USERS_LICENSE}>
-          <PetLicense />
-        </Route>
-        <Route path={URL_PET_USERS_APPT}>
+        <Redirect path={URL_PET_STAFF} to={URL_PET_STAFF_APPT} exact />
+        <Route path={URL_PET_STAFF_APPT}>
           <PetAppt />
         </Route>
         <Route path="**">
@@ -66,4 +49,4 @@ const PetClient: React.FC<Props> = (props) => (
   </Fragment>
 );
 
-export default connector(PetClient);
+export default connector(PetStaff);
