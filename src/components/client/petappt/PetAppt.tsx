@@ -21,6 +21,7 @@ import {
   faFileDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import { getReportHtml } from "../../../utils/report.util";
 
 const PetAppt: React.FC = () => {
   const [pets, setPets] = useState<Array<any>>([]);
@@ -164,8 +165,15 @@ const PetAppt: React.FC = () => {
                   </td>
                   <td className="text-center">
                     <FontAwesomeIcon
+                      className="cursor-pointer"
                       icon={faFileDownload}
                       color={t.status === "CLOSED" ? "GREEN" : "BLACK"}
+                      onClick={() => {
+                        const winUrl = URL.createObjectURL(
+                          new Blob([getReportHtml(t)], { type: "text/html" })
+                        );
+                        window.open(winUrl);
+                      }}
                     />
                   </td>
                 </tr>
@@ -308,7 +316,7 @@ const PetAppt: React.FC = () => {
                   className="form-control"
                   value={apptTime}
                   onChange={(ev) => setApptTime(ev.target.value)}
-                  min={new Date().toISOString().substr(0, 10)}
+                  min={new Date().toISOString().slice(0, -8)}
                 />
               </div>
               <div className="form-group">

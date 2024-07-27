@@ -29,7 +29,7 @@ const PetStaff: React.FC = () => {
   const [fee, setFee] = useState<number>(0);
   const [role, setRole] = useState<string>("");
   const [gender, setGender] = useState<string>("MALE");
-  const [staffClinic, setStaffClinic] = useState<number>(-1);
+  const [staffClinic, setStaffClinic] = useState<Array<number>>([]);
   // const [id, setId] = useState<number>(-1);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
@@ -64,7 +64,7 @@ const PetStaff: React.FC = () => {
         staffId,
         fee,
         role,
-        [staffClinic]
+        staffClinic
       );
 
       responseCode === 200 && alert("Updated successfully");
@@ -77,7 +77,7 @@ const PetStaff: React.FC = () => {
       setStaffId(0);
       setFee(0);
       setRole("");
-      setStaffClinic(-1);
+      setStaffClinic([]);
       setIsVerifying(false);
       setIsFetched(false);
     } catch (err: any) {
@@ -117,7 +117,7 @@ const PetStaff: React.FC = () => {
                 setStaffId(0);
                 setFee(0);
                 setRole("");
-                setStaffClinic(-1);
+                setStaffClinic([]);
               }}
             >
               <FontAwesomeIcon icon={faPlusCircle} />
@@ -268,11 +268,14 @@ const PetStaff: React.FC = () => {
                 className="form-control"
                 title="clinic"
                 onChange={(ev) => {
-                  setStaffClinic(+ev.target.value);
+                  const options = [...ev.target.selectedOptions];
+                  const values = options.map((option) => option.value);
+                  setStaffClinic(values);
                 }}
                 required
+                multiple
+                defaultValue={[...staffClinic.map((s) => s.toString())]}
               >
-                <option value={-1}></option>
                 {clinics.map((c, i) => {
                   return (
                     <option value={c.id} key={i}>

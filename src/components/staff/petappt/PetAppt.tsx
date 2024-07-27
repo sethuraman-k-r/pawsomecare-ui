@@ -53,6 +53,10 @@ const PetAppt: React.FC = () => {
       setIsFetched(false);
       setPetAppts([]);
       setAppt(null);
+      setAnalysis("");
+      setNextTime("");
+      setVaccine(-1);
+      setPresMeds([]);
       document.getElementById("petModal")?.classList.remove("show");
       document.querySelector(".modal-backdrop")?.remove();
     }
