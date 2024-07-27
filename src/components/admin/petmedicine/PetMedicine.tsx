@@ -198,7 +198,7 @@ const PetMedicine: React.FC = () => {
                 value={cost}
                 onChange={(ev) => setCost(ev.target.valueAsNumber)}
                 required
-                min={2}
+                min={0}
               />
             </div>
             <div className="form-group">
@@ -220,6 +220,7 @@ const PetMedicine: React.FC = () => {
                 value={expire}
                 onChange={(ev) => setExpire(ev.target.value)}
                 required
+                min={new Date().toISOString().substr(0, 10)}
               />
             </div>
             <div className="form-group form-check">

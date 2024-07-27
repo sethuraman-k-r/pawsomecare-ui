@@ -62,10 +62,10 @@ export function updatePetCategory(
   });
 }
 
-export function getPetGrooming(): Promise<any> {
+export function getPetGrooming(role: string = "admin"): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get("admin/pet/groom", {
+      .get(role + "/pet/groom", {
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
@@ -160,10 +160,10 @@ export function updatePetGrooming(
   });
 }
 
-export function getPetVaccines(): Promise<any> {
+export function getPetVaccines(role: string = "admin"): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get("admin/pet/vaccine", {
+      .get(role + "/pet/vaccine", {
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
@@ -238,10 +238,10 @@ export function updatePetVaccine(
   });
 }
 
-export function getPetMedicines(): Promise<any> {
+export function getPetMedicines(role: string = "admin"): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get("admin/pet/medicine", {
+      .get(role + "/pet/medicine", {
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
@@ -568,7 +568,7 @@ export function bookPetAppt(
           service,
           apptTime,
           reason,
-          grooms
+          grooms,
         },
         {
           headers: {
@@ -754,6 +754,38 @@ export function getClinicStaffs(clinic: number): Promise<any> {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
       })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
+export function finalAppointment(
+  appointmentId:number,
+  vaccineId:number,
+  analysis: string,
+  nextTime: string,
+  medicines: Array<any>
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .put(
+        "staff/pet/finish/appointment",
+        {
+          appointmentId,
+          vaccineId,
+          analysis,
+          nextTime,
+          medicines
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
       .then((response) => response.data)
       .then((value) => {
         resolve(value);

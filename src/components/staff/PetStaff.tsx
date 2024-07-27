@@ -11,7 +11,6 @@ import { connect, ConnectedProps } from "react-redux";
 import { joinArrayToString } from "../../utils/array.utils";
 
 import Error from "../../hoc-components/error/Error";
-import PetAdopt from "./petadopt/PetAdopt";
 import StaffHeader from "./header/StaffHeader";
 import PetAppt from "./petappt/PetAppt";
 

@@ -18,11 +18,7 @@ import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarCheck,
-  faCheck,
-  faEdit,
   faFileDownload,
-  faInfoCircle,
-  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../hoc-components/UI/modal/Modal";
 
@@ -102,12 +98,6 @@ const PetAppt: React.FC = () => {
     return staffRole === "GROOMING"
       ? petServices.filter((s) => s.serviceName === "GROOMING")
       : petServices.filter((s) => s.serviceName !== "GROOMING");
-  };
-
-  const getMonths = (dob: string) => {
-    let diff = (new Date().getTime() - new Date(dob).getTime()) / 1000;
-    diff /= 60 * 60 * 24 * 7 * 4;
-    return Math.abs(Math.round(diff));
   };
 
   return (
@@ -318,6 +308,7 @@ const PetAppt: React.FC = () => {
                   className="form-control"
                   value={apptTime}
                   onChange={(ev) => setApptTime(ev.target.value)}
+                  min={new Date().toISOString().substr(0, 10)}
                 />
               </div>
               <div className="form-group">

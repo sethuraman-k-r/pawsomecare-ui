@@ -245,6 +245,7 @@ const PetCategory: React.FC = () => {
                 value={dob}
                 onChange={(ev) => doUpdateFields(ev, setDob)}
                 required
+                min={"1970-01-01"}
               />
             </div>
             <div className="form-group">
