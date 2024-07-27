@@ -17,6 +17,7 @@ import { joinArrayToString } from "../../utils/array.utils";
 import Error from "../../hoc-components/error/Error";
 import StaffHeader from "./header/StaffHeader";
 import PetAppt from "./petappt/PetAppt";
+import ApptHistory from "./appthistory/ApptHistory";
 
 const mapStateToProps = (state: RootState) => ({
   showSidebar: state.sidebar,
@@ -45,7 +46,7 @@ const PetStaff: React.FC<Props> = (props) => (
           <PetAppt />
         </Route>
         <Route path={URL_PET_STAFF_APPT_HISTORY}>
-          <h1>HOME</h1>
+          <ApptHistory />
         </Route>
         <Route path="**">
           <Error />
