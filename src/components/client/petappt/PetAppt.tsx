@@ -146,7 +146,7 @@ const PetAppt: React.FC = () => {
                     <address>{t.clinic.address}</address>
                   </td>
                   <td>{t.staffDetails.username}</td>
-                  <td>{t.apptTime}</td>
+                  <td>{new Date(t.apptTime).toLocaleString()}</td>
                   <td>{t.service.serviceName}</td>
                   <td>{t.status === "CLOSED" ? t.amount : "-"}</td>
                   <td className="text-capitalize">

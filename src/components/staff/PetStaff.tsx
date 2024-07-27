@@ -2,7 +2,11 @@ import React, { Fragment } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 
 /* TS Import */
-import { URL_PET_STAFF, URL_PET_STAFF_APPT } from "../../config/UrlRoute";
+import {
+  URL_PET_STAFF,
+  URL_PET_STAFF_APPT,
+  URL_PET_STAFF_APPT_HISTORY,
+} from "../../config/UrlRoute";
 
 /* COMPONENT Import */
 import { RootState } from "../../store/reducers";
@@ -39,6 +43,9 @@ const PetStaff: React.FC<Props> = (props) => (
         <Redirect path={URL_PET_STAFF} to={URL_PET_STAFF_APPT} exact />
         <Route path={URL_PET_STAFF_APPT}>
           <PetAppt />
+        </Route>
+        <Route path={URL_PET_STAFF_APPT_HISTORY}>
+          <h1>HOME</h1>
         </Route>
         <Route path="**">
           <Error />

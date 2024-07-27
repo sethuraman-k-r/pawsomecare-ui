@@ -90,29 +90,31 @@ const Header: React.FC<Props> = (props) => {
               {!props.sidebar && "Manage"}
             </NavLink>
           )}
-          {props.auth && props.auth.role === "ROLE_VETERINARIAN" && (
-            <NavLink
-              to={URL_PET_STAFF}
-              className={joinArrayToString([
-                "list-group-item list-group-item-action",
-                props.sidebar ? "text-center" : "",
-              ])}
-              activeClassName="active"
-            >
-              <span
+          {props.auth &&
+            (props.auth.role === "ROLE_VETERINARIAN" ||
+              props.auth.role === "ROLE_GROOMING") && (
+              <NavLink
+                to={URL_PET_STAFF}
                 className={joinArrayToString([
-                  "badge",
-                  props.sidebar ? "" : "mr-3",
+                  "list-group-item list-group-item-action",
+                  props.sidebar ? "text-center" : "",
                 ])}
+                activeClassName="active"
               >
-                <FAIcon
-                  icon={faCalendarCheck}
-                  size={props.sidebar ? "2x" : "1x"}
-                />
-              </span>
-              {!props.sidebar && "Appointment"}
-            </NavLink>
-          )}
+                <span
+                  className={joinArrayToString([
+                    "badge",
+                    props.sidebar ? "" : "mr-3",
+                  ])}
+                >
+                  <FAIcon
+                    icon={faCalendarCheck}
+                    size={props.sidebar ? "2x" : "1x"}
+                  />
+                </span>
+                {!props.sidebar && "Appointment"}
+              </NavLink>
+            )}
           {props.auth && props.auth.role === "ROLE_CLIENT" && (
             <NavLink
               to={URL_PET_USERS}

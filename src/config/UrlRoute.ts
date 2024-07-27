@@ -10,6 +10,7 @@ export const URL_PET_USERS_LICENSE = "/home/users/license";
 export const URL_PET_USERS_APPT = "/home/users/appt";
 export const URL_PET_STAFF = "/home/staff";
 export const URL_PET_STAFF_APPT = "/home/staff/appt";
+export const URL_PET_STAFF_APPT_HISTORY = "/home/staff/appt-history";
 export const URL_PET_ADMIN_PET_TYPES = "/home/admin/pet/types";
 export const URL_PET_ADMIN_PETS = "/home/admin/pets";
 export const URL_PET_ADMIN_CLINC = "/home/admin/clinic";
