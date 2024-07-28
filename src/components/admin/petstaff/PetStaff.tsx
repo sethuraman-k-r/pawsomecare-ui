@@ -8,6 +8,7 @@ import "./PetStaff.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAt,
+  faHospitalUser,
   faInfoCircle,
   faPlusCircle,
 } from "@fortawesome/free-solid-svg-icons";
@@ -18,6 +19,7 @@ import {
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const PetStaff: React.FC = () => {
   const [staffs, setStaffs] = useState<Array<any>>([]);
@@ -100,93 +102,114 @@ const PetStaff: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="form-group">
-          <div className="d-flex justify-content-between">
-            <h3>Staff Details</h3>
-            <button
-              className="btn bg-primary mb-4 text-white login-button"
-              data-toggle="modal"
-              data-target="#petModal"
-              onClick={() => {
-                setMode("ADD");
-                // setId(-1);
-                setName("");
-                setEmail("");
-                setGender("");
-                setStaffId(0);
-                setFee(0);
-                setRole("");
-                setStaffClinic([]);
-              }}
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp; Add Staff
-            </button>
-          </div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Staff Name</th>
-                <th scope="col">Fee</th>
-                <th scope="col">Role</th>
-                <th scope="col">Clinic</th>
-              </tr>
-            </thead>
-            <tbody>
-              {staffs.map((t, i) => (
-                <tr key={t.id}>
-                  <th scope="row">{i + 1}</th>
-                  <td>
-                    {t.username}
-                    &nbsp;
-                    <FontAwesomeIcon
-                      icon={faInfoCircle}
-                      size={"1x"}
-                      title={`Staff #: ${t.staff.id}`}
-                      onClick={() => navigator.clipboard.writeText(t.staff.id)}
-                    />
-                    &nbsp;
-                    <FontAwesomeIcon
-                      icon={faAt}
-                      size={"1x"}
-                      title={`${t.email}`}
-                      onClick={() => navigator.clipboard.writeText(t.email)}
-                    />
-                  </td>
-                  <td>{t.staff.consultFee}</td>
-                  <td className="text-capitalize">
-                    {t.authorities
-                      .map((a: any) => a.authority.replace("ROLE_", ""))
-                      .join(", ")}
-                  </td>
-                  <td>
-                    <table>
-                      <tbody>
-                        {t.staff.clinics.map((c: any, i: number) => (
-                          <tr key={i}>
-                            <td>
-                              <strong>
-                                {i + 1}
-                                {". " + c.name}
-                              </strong>
-                              <br />
-                              <i>{c.specialities}</i>
-                              <br />
-                              <i>{c.address}</i>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </td>
+      <DataList
+        dataLength={staffs.length}
+        icon={faHospitalUser}
+        placeholder={"No staffs available"}
+        actionIcon={faPlusCircle}
+        actionText="Add Staff"
+        actionCallback={() => {
+          setMode("ADD");
+          // setId(-1);
+          setName("");
+          setEmail("");
+          setGender("");
+          setStaffId(0);
+          setFee(0);
+          setRole("");
+          setStaffClinic([]);
+        }}
+      >
+        <div className="col-12 my-4">
+          <div className="form-group">
+            <div className="d-flex justify-content-between">
+              <h3>Staff Details</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  // setId(-1);
+                  setName("");
+                  setEmail("");
+                  setGender("");
+                  setStaffId(0);
+                  setFee(0);
+                  setRole("");
+                  setStaffClinic([]);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Staff
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Staff Name</th>
+                  <th scope="col">Fee</th>
+                  <th scope="col">Role</th>
+                  <th scope="col">Clinic</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {staffs.map((t, i) => (
+                  <tr key={t.id}>
+                    <th scope="row">{i + 1}</th>
+                    <td>
+                      {t.username}
+                      &nbsp;
+                      <FontAwesomeIcon
+                        icon={faInfoCircle}
+                        size={"1x"}
+                        title={`Staff #: ${t.staff.id}`}
+                        onClick={() =>
+                          navigator.clipboard.writeText(t.staff.id)
+                        }
+                      />
+                      &nbsp;
+                      <FontAwesomeIcon
+                        icon={faAt}
+                        size={"1x"}
+                        title={`${t.email}`}
+                        onClick={() => navigator.clipboard.writeText(t.email)}
+                      />
+                    </td>
+                    <td>{t.staff.consultFee}</td>
+                    <td className="text-capitalize">
+                      {t.authorities
+                        .map((a: any) => a.authority.replace("ROLE_", ""))
+                        .join(", ")}
+                    </td>
+                    <td>
+                      <table>
+                        <tbody>
+                          {t.staff.clinics.map((c: any, i: number) => (
+                            <tr key={i}>
+                              <td>
+                                <strong>
+                                  {i + 1}
+                                  {". " + c.name}
+                                </strong>
+                                <br />
+                                <i>{c.specialities}</i>
+                                <br />
+                                <i>{c.address}</i>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </DataList>
 
       <Modal
         title={mode === "ADD" ? "Add New Staff" : "Update Staff"}

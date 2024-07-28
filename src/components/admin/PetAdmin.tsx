@@ -53,7 +53,7 @@ const PetAdmin: React.FC<Props> = (props) => (
       ])}
     >
       <Switch>
-        <Redirect path={URL_PET_ADMIN} to={URL_PET_ADMIN_PET_TYPES} exact />
+        <Redirect path={URL_PET_ADMIN} to={URL_PET_ADMIN_PETS} exact />
         <Route path={URL_PET_ADMIN_CLINC}>
           <PetClinic />
         </Route>

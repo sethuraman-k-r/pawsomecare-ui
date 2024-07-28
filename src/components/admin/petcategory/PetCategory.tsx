@@ -6,7 +6,7 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 /* CSS Import */
 import "./PetCategory.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPaw, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   addNewUnadoptPet,
   addPetCategory,
@@ -15,6 +15,7 @@ import {
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const PetCategory: React.FC = () => {
   const [petTypes, setPetTypes] = useState<Array<any>>([]);
@@ -103,80 +104,94 @@ const PetCategory: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="form-group">
-          <div className="d-flex justify-content-between">
-            <h3>Pet Category</h3>
-            <button
-              className="btn bg-primary mb-4 text-white login-button"
-              data-toggle="modal"
-              data-target="#petModal"
-              onClick={() => {
-                setMode("ADD");
-                setType("");
-                setLicenseCost(0);
-                setStatus(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp; Add Pet Type
-            </button>
-          </div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Type</th>
-                <th scope="col">Status</th>
-                <th scope="col">License Cost</th>
-                <th scope="col" className="text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {petTypes.map((t) => (
-                <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
-                  <td className="text-capitalize">{t.name}</td>
-                  <td>{t.isActive ? "Active" : "Inactive"}</td>
-                  <td>{t.licenseCost}</td>
-                  <td className="text-center">
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-dark-primary"
-                      title="Edit Pet Type"
-                      data-toggle="modal"
-                      data-target="#petModal"
-                      onClick={() => {
-                        setMode("EDIT");
-                        setType(t.name);
-                        setStatus(t.isActive);
-                        setLicenseCost(t.licenseCost);
-                      }}
-                    />
-                    {t.isActive && (
+      <DataList
+        dataLength={petTypes.length}
+        icon={faPaw}
+        placeholder="No pet types available"
+        actionIcon={faPlusCircle}
+        actionText="Add Pet Type"
+        actionCallback={() => {
+          setMode("ADD");
+          setType("");
+          setLicenseCost(0);
+          setStatus(true);
+        }}
+      >
+        <div className="col-12 my-4">
+          <div className="form-group">
+            <div className="d-flex justify-content-between">
+              <h3>Pet Category</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  setType("");
+                  setLicenseCost(0);
+                  setStatus(true);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Pet Type
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">License Cost</th>
+                  <th scope="col" className="text-center">
+                    Action
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {petTypes.map((t) => (
+                  <tr key={t.id}>
+                    <th scope="row">{t.id}</th>
+                    <td className="text-capitalize">{t.name}</td>
+                    <td>{t.isActive ? "Active" : "Inactive"}</td>
+                    <td>{t.licenseCost}</td>
+                    <td className="text-center">
                       <FontAwesomeIcon
-                        icon={faPlusCircle}
+                        icon={faEdit}
                         size={"1x"}
-                        className="text-primary mx-2 cursor-pointer"
-                        title="Add Pet for Adoption"
+                        className="mx-2 cursor-pointer text-dark-primary"
+                        title="Edit Pet Type"
                         data-toggle="modal"
                         data-target="#petModal"
                         onClick={() => {
-                          setMode("NEW_PET");
-                          setCategoryId(t.id);
+                          setMode("EDIT");
+                          setType(t.name);
+                          setStatus(t.isActive);
+                          setLicenseCost(t.licenseCost);
                         }}
                       />
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      {t.isActive && (
+                        <FontAwesomeIcon
+                          icon={faPlusCircle}
+                          size={"1x"}
+                          className="text-primary mx-2 cursor-pointer"
+                          title="Add Pet for Adoption"
+                          data-toggle="modal"
+                          data-target="#petModal"
+                          onClick={() => {
+                            setMode("NEW_PET");
+                            setCategoryId(t.id);
+                          }}
+                        />
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </DataList>
       <Modal
         title={
           mode === "NEW_PET"

@@ -10,6 +10,7 @@ import {
   faCheck,
   faEdit,
   faPlusCircle,
+  faSyringe,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -19,6 +20,7 @@ import {
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const PetVaccine: React.FC = () => {
   const [vaccines, setVaccines] = useState<Array<any>>([]);
@@ -84,80 +86,96 @@ const PetVaccine: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="form-group">
-          <div className="d-flex justify-content-between">
-            <h3>Vaccine Details</h3>
-            <button
-              className="btn bg-primary mb-4 text-white login-button"
-              data-toggle="modal"
-              data-target="#petModal"
-              onClick={() => {
-                setMode("ADD");
-                setId(-1);
-                setName("");
-                setDesc("");
-                setCost(0);
-                setIns(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp; Add Vaccine
-            </button>
-          </div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Vaccine Name</th>
-                <th scope="col">Cost</th>
-                <th scope="col">Insurance</th>
-                <th scope="col" className="text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {vaccines.map((t) => (
-                <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
-                  <td>
-                    {t.name}
-                    <br />
-                    <span className="small">{t.description}</span>
-                  </td>
-                  <td className="text-capitalize">{t.amount}</td>
-                  <td>
-                    {t.isInsAllowed ? (
-                      <FontAwesomeIcon icon={faCheck} size={"1x"} />
-                    ) : (
-                      <FontAwesomeIcon icon={faTimes} size={"1x"} />
-                    )}
-                  </td>
-                  <td className="text-center">
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-dark-primary"
-                      title="Edit Pet Type"
-                      data-toggle="modal"
-                      data-target="#petModal"
-                      onClick={() => {
-                        setMode("EDIT");
-                        setId(t.id);
-                        setName(t.name);
-                        setDesc(t.description);
-                        setCost(t.amount);
-                        setIns(t.isInsAllowed);
-                      }}
-                    />
-                  </td>
+      <DataList
+        dataLength={vaccines.length}
+        icon={faSyringe}
+        placeholder="No vaccines available"
+        actionIcon={faPlusCircle}
+        actionText="Add Vaccine"
+        actionCallback={() => {
+          setMode("ADD");
+          setId(-1);
+          setName("");
+          setDesc("");
+          setCost(0);
+          setIns(true);
+        }}
+      >
+        <div className="col-12 my-4">
+          <div className="form-group">
+            <div className="d-flex justify-content-between">
+              <h3>Vaccine Details</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  setId(-1);
+                  setName("");
+                  setDesc("");
+                  setCost(0);
+                  setIns(true);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Vaccine
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Vaccine Name</th>
+                  <th scope="col">Cost</th>
+                  <th scope="col">Insurance</th>
+                  <th scope="col" className="text-center">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {vaccines.map((t) => (
+                  <tr key={t.id}>
+                    <th scope="row">{t.id}</th>
+                    <td>
+                      {t.name}
+                      <br />
+                      <span className="small">{t.description}</span>
+                    </td>
+                    <td className="text-capitalize">{t.amount}</td>
+                    <td>
+                      {t.isInsAllowed ? (
+                        <FontAwesomeIcon icon={faCheck} size={"1x"} />
+                      ) : (
+                        <FontAwesomeIcon icon={faTimes} size={"1x"} />
+                      )}
+                    </td>
+                    <td className="text-center">
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        size={"1x"}
+                        className="mx-2 cursor-pointer text-dark-primary"
+                        title="Edit Pet Type"
+                        data-toggle="modal"
+                        data-target="#petModal"
+                        onClick={() => {
+                          setMode("EDIT");
+                          setId(t.id);
+                          setName(t.name);
+                          setDesc(t.description);
+                          setCost(t.amount);
+                          setIns(t.isInsAllowed);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </DataList>
 
       <Modal
         title={mode === "ADD" ? "Add New Vaccine" : "Update Vaccine Service"}

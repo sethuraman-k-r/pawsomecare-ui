@@ -6,7 +6,11 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 /* CSS Import */
 import "./PetClinic.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClinicMedical,
+  faEdit,
+  faPlusCircle,
+} from "@fortawesome/free-solid-svg-icons";
 import {
   addPetClinic,
   getPetClinics,
@@ -14,6 +18,7 @@ import {
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const PetClinic: React.FC = () => {
   const [clinics, setClinics] = useState<Array<any>>([]);
@@ -80,81 +85,98 @@ const PetClinic: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="form-group">
-          <div className="d-flex justify-content-between">
-            <h3>Clinic Details</h3>
-            <button
-              className="btn bg-primary mb-4 text-white login-button"
-              data-toggle="modal"
-              data-target="#petModal"
-              onClick={() => {
-                setMode("ADD");
-                setId(-1);
-                setName("");
-                setDesc("");
-                setSpl("");
-                setAddress("");
-                setDesc("");
-              }}
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp; Add Clinic
-            </button>
-          </div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Clinic Name</th>
-                <th scope="col">Specialities</th>
-                <th scope="col">Description</th>
-                <th scope="col" className="text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {clinics.map((t) => (
-                <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
-                  <td>
-                    {t.name}
-                    <br />
-                    <span className="small font-italic">
-                      <address>{t.address}</address>
-                    </span>
-                  </td>
-                  <td>
-                    <pre>{t.specialities}</pre>
-                  </td>
-                  <td>
-                    <pre>{t.description}</pre>
-                  </td>
-                  <td className="text-center">
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-dark-primary"
-                      title="Edit Clinic"
-                      data-toggle="modal"
-                      data-target="#petModal"
-                      onClick={() => {
-                        setMode("EDIT");
-                        setId(t.id);
-                        setName(t.name);
-                        setDesc(t.description);
-                        setSpl(t.specialities);
-                        setAddress(t.address);
-                      }}
-                    />
-                  </td>
+      <DataList
+        dataLength={clinics.length}
+        icon={faClinicMedical}
+        placeholder="No clinics available"
+        actionIcon={faPlusCircle}
+        actionText="Add Clinic"
+        actionCallback={() => {
+          setMode("ADD");
+          setId(-1);
+          setName("");
+          setDesc("");
+          setSpl("");
+          setAddress("");
+          setDesc("");
+        }}
+      >
+        <div className="col-12 my-4">
+          <div className="form-group">
+            <div className="d-flex justify-content-between">
+              <h3>Clinic Details</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  setId(-1);
+                  setName("");
+                  setDesc("");
+                  setSpl("");
+                  setAddress("");
+                  setDesc("");
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Clinic
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Clinic Name</th>
+                  <th scope="col">Specialities</th>
+                  <th scope="col">Description</th>
+                  <th scope="col" className="text-center">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {clinics.map((t) => (
+                  <tr key={t.id}>
+                    <th scope="row">{t.id}</th>
+                    <td>
+                      {t.name}
+                      <br />
+                      <span className="small font-italic">
+                        <address>{t.address}</address>
+                      </span>
+                    </td>
+                    <td>
+                      <pre>{t.specialities}</pre>
+                    </td>
+                    <td>
+                      <pre>{t.description}</pre>
+                    </td>
+                    <td className="text-center">
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        size={"1x"}
+                        className="mx-2 cursor-pointer text-dark-primary"
+                        title="Edit Clinic"
+                        data-toggle="modal"
+                        data-target="#petModal"
+                        onClick={() => {
+                          setMode("EDIT");
+                          setId(t.id);
+                          setName(t.name);
+                          setDesc(t.description);
+                          setSpl(t.specialities);
+                          setAddress(t.address);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </DataList>
 
       <Modal
         title={mode === "ADD" ? "Add New Clinic" : "Update Clinic"}

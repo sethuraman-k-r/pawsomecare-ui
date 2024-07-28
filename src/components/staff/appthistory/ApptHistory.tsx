@@ -7,6 +7,8 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 import "./ApptHistory.css";
 import { getStaffPetAppointments } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
+import { faHistory } from "@fortawesome/free-solid-svg-icons";
 
 const ApptHistory: React.FC = () => {
   const [petAppts, setPetAppts] = useState<Array<any>>([]);
@@ -41,89 +43,68 @@ const ApptHistory: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="row">
-          <div className="col-4">
-            <h3>My Appointments</h3>
-            <table className="table table-bordered">
-              <tbody>
-                {petAppts
-                  .filter((p) => p.status === "CLOSED")
-                  .map((t, i) => (
-                    <tr key={t.id}>
-                      <td
-                        className={`cursor-pointer pet-select ${
-                          appt !== null && appt.id === t.id
-                            ? "pet-select-focus"
-                            : ""
-                        }`}
-                        onClick={() => {
-                          setAppt(t);
-                        }}
-                      >
-                        <strong>{`${i + 1}. ${
-                          t.pet.petName
-                        } (${t.pet.petCategory.name.toUpperCase()})`}</strong>
-                        <section>{"Owner: " + t.user.username}</section>
-                        <section>
-                          {"Pet Age (in months): " + getMonths(t.pet.dob)}
-                        </section>
-                        <section
-                          className="text-truncate"
-                          style={{ width: "300px" }}
+      <DataList
+        dataLength={petAppts.length}
+        icon={faHistory}
+        placeholder="No history available"
+      >
+        <div className="col-12 my-4">
+          <div className="row">
+            <div className="col-4">
+              <h3>Appointment History</h3>
+              <table className="table table-bordered">
+                <tbody>
+                  {petAppts
+                    .filter((p) => p.status === "CLOSED")
+                    .map((t, i) => (
+                      <tr key={t.id}>
+                        <td
+                          className={`cursor-pointer pet-select ${
+                            appt !== null && appt.id === t.id
+                              ? "pet-select-focus"
+                              : ""
+                          }`}
+                          onClick={() => {
+                            setAppt(t);
+                          }}
                         >
-                          {t.reason}
-                        </section>
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-          {appt && (
-            <div className="col-8">
-              <div className="form-group">
-                <label className="text-secondary">Reason for Appointment</label>
-                <textarea
-                  name="reason"
-                  className="form-control"
-                  rows={3}
-                  value={appt.reason}
-                  disabled
-                ></textarea>
-              </div>
-              {appt.isVaccine && (
+                          <strong>{`${i + 1}. ${
+                            t.pet.petName
+                          } (${t.pet.petCategory.name.toUpperCase()})`}</strong>
+                          <section>{"Owner: " + t.user.username}</section>
+                          <section>
+                            {"Pet Age (in months): " + getMonths(t.pet.dob)}
+                          </section>
+                          <section
+                            className="text-truncate"
+                            style={{ width: "300px" }}
+                          >
+                            {t.reason}
+                          </section>
+                        </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
+            {appt && (
+              <div className="col-8">
                 <div className="form-group">
-                  <label className="text-secondary">Vaccine</label>
-                  {JSON.parse(appt.tabletPrescribed).vaccine.map(
-                    (v: any, i: number) => (
-                      <div className="row" key={i}>
-                        <div className="form-group col">
-                          <input
-                            type="text"
-                            className="form-control"
-                            disabled
-                            value={v.name}
-                          />
-                        </div>
-                        <div className="form-group col">
-                          <input
-                            type="text"
-                            className="form-control"
-                            disabled
-                            value={v.cost}
-                          />
-                        </div>
-                      </div>
-                    )
-                  )}
+                  <label className="text-secondary">
+                    Reason for Appointment
+                  </label>
+                  <textarea
+                    name="reason"
+                    className="form-control"
+                    rows={3}
+                    value={appt.reason}
+                    disabled
+                  ></textarea>
                 </div>
-              )}
-              {appt.isConsult && (
-                <Fragment>
+                {appt.isVaccine && (
                   <div className="form-group">
-                    <label className="text-secondary">Medicine</label>
-                    {JSON.parse(appt.tabletPrescribed).medicine.map(
+                    <label className="text-secondary">Vaccine</label>
+                    {JSON.parse(appt.tabletPrescribed).vaccine.map(
                       (v: any, i: number) => (
                         <div className="row" key={i}>
                           <div className="form-group col">
@@ -131,47 +112,7 @@ const ApptHistory: React.FC = () => {
                               type="text"
                               className="form-control"
                               disabled
-                              value={v.medicine}
-                            />
-                          </div>
-                          <div className="form-group col">
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                              value={v.count}
-                            />
-                          </div>
-                          <div className="form-group col">
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                              value={v.mrng}
-                            />
-                          </div>
-                          <div className="form-group col">
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                              value={v.noon}
-                            />
-                          </div>
-                          <div className="form-group col">
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                              value={v.evng}
-                            />
-                          </div>
-                          <div className="form-group col">
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                              value={v.ngt}
+                              value={v.name}
                             />
                           </div>
                           <div className="form-group col">
@@ -186,58 +127,127 @@ const ApptHistory: React.FC = () => {
                       )
                     )}
                   </div>
-                </Fragment>
-              )}
-              {appt.isGrooming && (
+                )}
+                {appt.isConsult && (
+                  <Fragment>
+                    <div className="form-group">
+                      <label className="text-secondary">Medicine</label>
+                      {JSON.parse(appt.tabletPrescribed).medicine.map(
+                        (v: any, i: number) => (
+                          <div className="row" key={i}>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.medicine}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.count}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.mrng}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.noon}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.evng}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.ngt}
+                              />
+                            </div>
+                            <div className="form-group col">
+                              <input
+                                type="text"
+                                className="form-control"
+                                disabled
+                                value={v.cost}
+                              />
+                            </div>
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </Fragment>
+                )}
+                {appt.isGrooming && (
+                  <div className="form-group">
+                    <label className="text-secondary">Grooming</label>
+                    {JSON.parse(appt.tabletPrescribed).grooming.map(
+                      (v: any, i: number) => (
+                        <div className="row" key={i}>
+                          <div className="form-group col">
+                            <input
+                              type="text"
+                              className="form-control"
+                              disabled
+                              value={v.name}
+                            />
+                          </div>
+                          <div className="form-group col">
+                            <input
+                              type="text"
+                              className="form-control"
+                              disabled
+                              value={v.cost}
+                            />
+                          </div>
+                        </div>
+                      )
+                    )}
+                  </div>
+                )}
                 <div className="form-group">
-                  <label className="text-secondary">Grooming</label>
-                  {JSON.parse(appt.tabletPrescribed).grooming.map(
-                    (v: any, i: number) => (
-                      <div className="row" key={i}>
-                        <div className="form-group col">
-                          <input
-                            type="text"
-                            className="form-control"
-                            disabled
-                            value={v.name}
-                          />
-                        </div>
-                        <div className="form-group col">
-                          <input
-                            type="text"
-                            className="form-control"
-                            disabled
-                            value={v.cost}
-                          />
-                        </div>
-                      </div>
-                    )
-                  )}
+                  <label className="text-secondary">Patient Analysis</label>
+                  <textarea
+                    name="analysis"
+                    className="form-control"
+                    rows={3}
+                    value={appt.consultDetail || ""}
+                    disabled
+                  ></textarea>
                 </div>
-              )}
-              <div className="form-group">
-                <label className="text-secondary">Patient Analysis</label>
-                <textarea
-                  name="analysis"
-                  className="form-control"
-                  rows={3}
-                  value={appt.consultDetail || ""}
-                  disabled
-                ></textarea>
+                <div className="form-group">
+                  <label className="text-secondary">Next Visit Time</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={appt.nextVisitSuggest.substr(0, 10)}
+                    disabled
+                  />
+                </div>
               </div>
-              <div className="form-group">
-                <label className="text-secondary">Next Visit Time</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={appt.nextVisitSuggest.substr(0, 10)}
-                  disabled
-                />
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
-      </div>
+      </DataList>
     </Fragment>
   );
 };

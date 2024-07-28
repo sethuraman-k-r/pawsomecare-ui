@@ -10,6 +10,7 @@ import {
   faCheck,
   faEdit,
   faPlusCircle,
+  faTablets,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -19,6 +20,7 @@ import {
 } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import Modal from "../../../hoc-components/UI/modal/Modal";
+import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const PetMedicine: React.FC = () => {
   const [medicines, setMedicines] = useState<Array<any>>([]);
@@ -88,90 +90,108 @@ const PetMedicine: React.FC = () => {
   return (
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
-      <div className="col-12 my-4">
-        <div className="form-group">
-          <div className="d-flex justify-content-between">
-            <h3>Medicine Details</h3>
-            <button
-              className="btn bg-primary mb-4 text-white login-button"
-              data-toggle="modal"
-              data-target="#petModal"
-              onClick={() => {
-                setMode("ADD");
-                setId(-1);
-                setName("");
-                setDesc("");
-                setCost(0);
-                setCount(0);
-                setExpire("");
-                setIns(true);
-              }}
-            >
-              <FontAwesomeIcon icon={faPlusCircle} />
-              &nbsp; Add Medicine
-            </button>
-          </div>
-          <table className="table table-bordered">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Medicine Name</th>
-                <th scope="col">Per Cost</th>
-                <th scope="col">Available Count</th>
-                <th scope="col">Insurance</th>
-                <th scope="col">Expires At</th>
-                <th scope="col" className="text-center">
-                  Action
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {medicines.map((t) => (
-                <tr key={t.id}>
-                  <th scope="row">{t.id}</th>
-                  <td>
-                    {t.name}
-                    <br />
-                    <span className="small">{t.description}</span>
-                  </td>
-                  <td className="text-capitalize">{t.perCost}</td>
-                  <td className="text-capitalize">{t.count}</td>
-                  <td>
-                    {t.isInsAllowed ? (
-                      <FontAwesomeIcon icon={faCheck} size={"1x"} />
-                    ) : (
-                      <FontAwesomeIcon icon={faTimes} size={"1x"} />
-                    )}
-                  </td>
-                  <td className="text-capitalize">
-                    {t.expiresAt && t.expiresAt.substr(0, 10)}
-                  </td>
-                  <td className="text-center">
-                    <FontAwesomeIcon
-                      icon={faEdit}
-                      size={"1x"}
-                      className="mx-2 cursor-pointer text-dark-primary"
-                      title="Edit Medicine"
-                      data-toggle="modal"
-                      data-target="#petModal"
-                      onClick={() => {
-                        setMode("EDIT");
-                        setId(t.id);
-                        setName(t.name);
-                        setDesc(t.description);
-                        setCost(t.perCost);
-                        setCount(t.count);
-                        setExpire(t.expiresAt && t.expiresAt.substr(0, 10));
-                        setIns(t.isInsAllowed);
-                      }}
-                    />
-                  </td>
+      <DataList
+        dataLength={medicines.length}
+        icon={faTablets}
+        placeholder="No medicines available"
+        actionIcon={faPlusCircle}
+        actionText="Add Medicine"
+        actionCallback={() => {
+          setMode("ADD");
+          setId(-1);
+          setName("");
+          setDesc("");
+          setCost(0);
+          setCount(0);
+          setExpire("");
+          setIns(true);
+        }}
+      >
+        <div className="col-12 my-4">
+          <div className="form-group">
+            <div className="d-flex justify-content-between">
+              <h3>Medicine Details</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  setId(-1);
+                  setName("");
+                  setDesc("");
+                  setCost(0);
+                  setCount(0);
+                  setExpire("");
+                  setIns(true);
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Medicine
+              </button>
+            </div>
+            <table className="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Medicine Name</th>
+                  <th scope="col">Per Cost</th>
+                  <th scope="col">Available Count</th>
+                  <th scope="col">Insurance</th>
+                  <th scope="col">Expires At</th>
+                  <th scope="col" className="text-center">
+                    Action
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {medicines.map((t) => (
+                  <tr key={t.id}>
+                    <th scope="row">{t.id}</th>
+                    <td>
+                      {t.name}
+                      <br />
+                      <span className="small">{t.description}</span>
+                    </td>
+                    <td className="text-capitalize">{t.perCost}</td>
+                    <td className="text-capitalize">{t.count}</td>
+                    <td>
+                      {t.isInsAllowed ? (
+                        <FontAwesomeIcon icon={faCheck} size={"1x"} />
+                      ) : (
+                        <FontAwesomeIcon icon={faTimes} size={"1x"} />
+                      )}
+                    </td>
+                    <td className="text-capitalize">
+                      {t.expiresAt && t.expiresAt.substr(0, 10)}
+                    </td>
+                    <td className="text-center">
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        size={"1x"}
+                        className="mx-2 cursor-pointer text-dark-primary"
+                        title="Edit Medicine"
+                        data-toggle="modal"
+                        data-target="#petModal"
+                        onClick={() => {
+                          setMode("EDIT");
+                          setId(t.id);
+                          setName(t.name);
+                          setDesc(t.description);
+                          setCost(t.perCost);
+                          setCount(t.count);
+                          setExpire(t.expiresAt && t.expiresAt.substr(0, 10));
+                          setIns(t.isInsAllowed);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
-      </div>
+      </DataList>
 
       <Modal
         title={mode === "ADD" ? "Add New Medicine" : "Update Medicine"}
