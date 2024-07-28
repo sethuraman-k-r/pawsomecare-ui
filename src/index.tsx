@@ -36,7 +36,7 @@ axios.interceptors.response.use(
 
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter basename="/pawsomecare">
+    <HashRouter basename="/">
       <React.StrictMode>
         <App />
       </React.StrictMode>
