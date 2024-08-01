@@ -5,7 +5,12 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 
 /* CSS Import */
 import "./MyPet.css";
-import { getMyPets, updatePet } from "../../../services/http.services";
+import {
+  addNewUnadoptPet,
+  getMyPets,
+  getPetCategory,
+  updatePet,
+} from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,6 +18,7 @@ import {
   faEdit,
   faInfoCircle,
   faPaw,
+  faPlusCircle,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../hoc-components/UI/modal/Modal";
@@ -20,18 +26,26 @@ import DataList from "../../../hoc-components/UI/datalist/DataList";
 
 const MyPet: React.FC = () => {
   const [pets, setPets] = useState<Array<any>>([]);
+  const [categories, setCategories] = useState<Array<any>>([]);
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [mode, setMode] = useState<string>("");
   const [petId, setPetId] = useState<number>(0);
   const [petName, setPetName] = useState<string>("");
   const [petWeight, setPetWeight] = useState<0>(0);
+  const [name, setName] = useState<string>("");
+  const [dob, setDob] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [type, setType] = useState<number>(-1);
+  const [weight, setWeight] = useState<number>(0);
 
   useEffect(() => {
     async function getPets() {
       try {
         const cli: any = await getMyPets();
+        const cats: any = await getPetCategory("user");
         setPets(cli);
+        setCategories(cats);
         setIsVerifying(false);
         setMode("");
         setPetId(0);
@@ -50,13 +64,21 @@ const MyPet: React.FC = () => {
   });
 
   const doUpdatePet = async () => {
+    setIsVerifying(true);
     if (mode === "EDIT") {
       await updatePet(petId, petName, petWeight);
-      setIsFetched(false);
-      setPets([]);
-      document.getElementById("petModal")?.classList.remove("show");
-      document.querySelector(".modal-backdrop")?.remove();
+    } else {
+      await addNewUnadoptPet(name, dob, gender, weight, type, "user");
+      setName("");
+      setDob("");
+      setWeight(0);
+      setGender("");
     }
+    setIsVerifying(false);
+    setIsFetched(false);
+    setPets([]);
+    document.getElementById("petModal")?.classList.remove("show");
+    document.querySelector(".modal-backdrop")?.remove();
   };
 
   const getMonths = (dob: string) => {
@@ -85,6 +107,21 @@ const MyPet: React.FC = () => {
           <div className="form-group">
             <div className="d-flex justify-content-between">
               <h3>My Pets</h3>
+              <button
+                className="btn bg-primary mb-4 text-white login-button"
+                data-toggle="modal"
+                data-target="#petModal"
+                onClick={() => {
+                  setMode("ADD");
+                  setName("");
+                  setDob("");
+                  setWeight(0);
+                  setGender("");
+                }}
+              >
+                <FontAwesomeIcon icon={faPlusCircle} />
+                &nbsp; Add Pet
+              </button>
             </div>
             <table className="table table-bordered">
               <thead>
@@ -164,11 +201,11 @@ const MyPet: React.FC = () => {
           </div>
 
           <Modal
-            title={mode === "EDIT" && "Update Pet"}
-            submitText={mode === "EDIT" && "Update"}
+            title={mode === "EDIT" ? "Update Pet" : "Add New Pet"}
+            submitText={mode === "EDIT" ? "Update" : "Add Pet"}
             doSubmit={doUpdatePet}
           >
-            {mode === "EDIT" && (
+            {mode === "EDIT" ? (
               <Fragment>
                 <div className="form-group">
                   <label className="text-secondary">Pet #</label>
@@ -197,6 +234,89 @@ const MyPet: React.FC = () => {
                     value={petWeight}
                     onChange={(ev) => setPetWeight(ev.target.valueAsNumber)}
                     required
+                  />
+                </div>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <div className="form-group">
+                  <label className="text-secondary">Pet Name</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    value={name}
+                    onChange={(ev) => doUpdateFields(ev, setName)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Pet Type</label>
+                  <select
+                    name="pettype"
+                    className="form-control text-capitalize"
+                    title="Pet Type"
+                    onChange={(ev) => setType(+ev.target.value)}
+                    required
+                  >
+                    <option value="-1"></option>
+                    {categories
+                      .filter((c: any) => c.isActive)
+                      .map((c, i) => (
+                        <option
+                          value={c.id}
+                          key={i}
+                          className="text-capitalize"
+                        >
+                          {c.name}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Date of Birth</label>
+                  <input
+                    type="date"
+                    className="form-control"
+                    value={dob}
+                    onChange={(ev) => doUpdateFields(ev, setDob)}
+                    required
+                    min={"1970-01-01"}
+                  />
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Gender</label>
+                  <div className="form-check">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="gender"
+                      value={"MALE"}
+                      onChange={(ev) => doUpdateFields(ev, setGender)}
+                      required
+                    />
+                    <label className="text-secondary form-check-label">M</label>
+                  </div>
+                  <div className="form-check">
+                    <input
+                      type="radio"
+                      className="form-check-input"
+                      name="gender"
+                      value={"FEMALE"}
+                      onChange={(ev) => doUpdateFields(ev, setGender)}
+                      required
+                    />
+                    <label className="text-secondary form-check-label">F</label>
+                  </div>
+                </div>
+                <div className="form-group">
+                  <label className="text-secondary">Weight (in grams)</label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    value={weight}
+                    onChange={(ev) => setWeight(ev.target.valueAsNumber)}
+                    required
+                    min={5}
                   />
                 </div>
               </Fragment>

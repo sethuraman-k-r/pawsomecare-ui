@@ -2,10 +2,10 @@ import axios from "axios";
 import { VendorProfileProps } from "../props/VendorProps";
 import { Auth } from "./auth.services";
 
-export function getPetCategory(): Promise<any> {
+export function getPetCategory(role: string = "admin"): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
-      .get("admin/pet/category", {
+      .get(role + "/pet/category", {
         headers: {
           Authorization: `Bearer ${Auth.getToken()}`,
         },
@@ -329,12 +329,13 @@ export function addNewUnadoptPet(
   dob: string,
   gender: string,
   weight: number,
-  category: number
+  category: number,
+  role: string = "admin"
 ): Promise<any> {
   return new Promise((resolve, reject) => {
     axios
       .post(
-        `admin/pet/new/unadopt`,
+        `${role}/pet/new/unadopt`,
         {
           name,
           dob,
@@ -763,8 +764,8 @@ export function getClinicStaffs(clinic: number): Promise<any> {
 }
 
 export function finalAppointment(
-  appointmentId:number,
-  vaccineId:number,
+  appointmentId: number,
+  vaccineId: number,
   analysis: string,
   nextTime: string,
   medicines: Array<any>
@@ -778,7 +779,7 @@ export function finalAppointment(
           vaccineId,
           analysis,
           nextTime,
-          medicines
+          medicines,
         },
         {
           headers: {
