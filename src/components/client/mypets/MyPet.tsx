@@ -16,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faEdit,
+  faFileDownload,
   faInfoCircle,
   faPaw,
   faPlusCircle,
@@ -23,6 +24,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../hoc-components/UI/modal/Modal";
 import DataList from "../../../hoc-components/UI/datalist/DataList";
+import { getLicenseHtml } from "../../../utils/report.util";
 
 const MyPet: React.FC = () => {
   const [pets, setPets] = useState<Array<any>>([]);
@@ -152,7 +154,7 @@ const MyPet: React.FC = () => {
                     <td>{t.weight}</td>
                     <td>{t.gender}</td>
                     <td className="text-capitalize">{t.petCategory.name}</td>
-                    <td className="text-capitalize">
+                    <td className="text-capitalize text-center">
                       {t.isLicensed ? (
                         <FontAwesomeIcon
                           icon={faCheck}
@@ -179,8 +181,9 @@ const MyPet: React.FC = () => {
                     </td>
                     <td>{getMonths(t.dob)}</td>
                     <td>
-                      <button
-                        className="bg-primary text-white btn"
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="mx-2 cursor-pointer text-dark-primary"
                         onClick={() => {
                           setMode("EDIT");
                           setPetId(t.id);
@@ -189,10 +192,23 @@ const MyPet: React.FC = () => {
                         }}
                         data-toggle="modal"
                         data-target="#petModal"
-                      >
-                        <FontAwesomeIcon icon={faEdit} />
-                        &nbsp; Update
-                      </button>
+                        title="Update"
+                      />
+                      {t.isLicensed && (
+                        <FontAwesomeIcon
+                          icon={faFileDownload}
+                          className="mx-2 cursor-pointer text-primary"
+                          onClick={() => {
+                            const winUrl = URL.createObjectURL(
+                              new Blob([getLicenseHtml(t)], {
+                                type: "text/html",
+                              })
+                            );
+                            window.open(winUrl);
+                          }}
+                          title={`Download ${t.petName} License`}
+                        />
+                      )}
                     </td>
                   </tr>
                 ))}
