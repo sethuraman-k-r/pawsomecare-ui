@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
   faEdit,
-  faFileDownload,
+  faIdBadge,
   faInfoCircle,
   faPaw,
   faPlusCircle,
@@ -196,7 +196,7 @@ const MyPet: React.FC = () => {
                       />
                       {t.isLicensed && (
                         <FontAwesomeIcon
-                          icon={faFileDownload}
+                          icon={faIdBadge}
                           className="mx-2 cursor-pointer text-primary"
                           onClick={() => {
                             const winUrl = URL.createObjectURL(

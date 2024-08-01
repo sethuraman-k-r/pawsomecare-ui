@@ -585,6 +585,36 @@ export function bookPetAppt(
   });
 }
 
+export function doRateAppt(
+  apptId: number,
+  title: string,
+  description: string,
+  rating: number
+): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(
+        "user/pet/book/appointment/feedback",
+        {
+          apptId,
+          title,
+          description,
+          rating,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${Auth.getToken()}`,
+          },
+        }
+      )
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function getPetAppointments(): Promise<any> {
   return new Promise((resolve, reject) => {
     axios

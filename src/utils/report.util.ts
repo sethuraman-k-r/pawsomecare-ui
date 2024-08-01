@@ -6,6 +6,7 @@ export const getReportHtml = (appt: any) => {
   let grooming = "";
   let groomingCost = 0;
   let pres: any = JSON.parse(appt.tabletPrescribed);
+  let feedback = "";
   if (appt.isConsult) {
     let medicineEl = pres.medicine
       .map((m: any) => {
@@ -84,6 +85,17 @@ export const getReportHtml = (appt: any) => {
           <strong>${groomingCost}</strong>
         </li>
       </ul>
+    </div>`;
+  }
+
+  if (appt.feedback != null) {
+    feedback = `<hr />
+    <div>
+      <h4 class="mb-3">Feedback - Rating ${appt.feedback.rate}/5</h4>
+      <div class="form-floating mb-3">
+        <p class="lead">${appt.feedback.title}</p>
+        <p>${appt.feedback.description}</p>
+      </div>
     </div>`;
   }
   return `<!DOCTYPE html>
@@ -283,6 +295,7 @@ export const getReportHtml = (appt: any) => {
                 <label>Next Visit Suggestion</label>
               </div>
             </div>
+            ${feedback}
           </div>
           <div class="col-md-5 col-lg-4 order-md-last">
             <h3 class="d-flex justify-content-between align-items-center mb-3">

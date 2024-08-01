@@ -7,6 +7,7 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 import "./PetAppt.css";
 import {
   bookPetAppt,
+  doRateAppt,
   getClinicStaffs,
   getMyPets,
   getPetAppointments,
@@ -18,6 +19,7 @@ import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarCheck,
+  faCommentAlt,
   faFileDownload,
 } from "@fortawesome/free-solid-svg-icons";
 import Modal from "../../../hoc-components/UI/modal/Modal";
@@ -34,6 +36,10 @@ const PetAppt: React.FC = () => {
   const [isVerifying, setIsVerifying] = useState<boolean>(true);
   const [isFetched, setIsFetched] = useState<boolean>(false);
   const [mode, setMode] = useState<string>("");
+  const [apptId, setApptId] = useState<number>(-1);
+  const [feedTitle, setFeedTitle] = useState<string>("");
+  const [feedDesc, setFeedDesc] = useState<string>("");
+  const [feedRate, setFeedRate] = useState<number>(5);
   const [petId, setPetId] = useState<number>(-1);
   const [clinicId, setClinicId] = useState<number>(-1);
   const [staffId, setStaffId] = useState<number>(-1);
@@ -91,6 +97,32 @@ const PetAppt: React.FC = () => {
       setApptTime("");
       setStaffRole("");
       setReason("");
+      setApptId(-1);
+      setFeedTitle("");
+      setFeedDesc("");
+      setFeedRate(5);
+      document.getElementById("petModal")?.classList.remove("show");
+      document.querySelector(".modal-backdrop")?.remove();
+    }
+  };
+
+  const doSaveFeedback = async () => {
+    if (mode === "FEEDBACK") {
+      await doRateAppt(apptId, feedTitle, feedDesc, feedRate);
+      setIsFetched(false);
+      setPets([]);
+      setPetId(-1);
+      setClinicId(-1);
+      setStaffId(-1);
+      setService("");
+      setGrooms([]);
+      setApptTime("");
+      setStaffRole("");
+      setReason("");
+      setApptId(-1);
+      setFeedTitle("");
+      setFeedDesc("");
+      setFeedRate(5);
       document.getElementById("petModal")?.classList.remove("show");
       document.querySelector(".modal-backdrop")?.remove();
     }
@@ -178,7 +210,7 @@ const PetAppt: React.FC = () => {
                     </td>
                     <td className="text-center">
                       <FontAwesomeIcon
-                        className="cursor-pointer"
+                        className="cursor-pointer mx-2"
                         icon={faFileDownload}
                         color={t.status === "CLOSED" ? "GREEN" : "BLACK"}
                         onClick={() => {
@@ -188,6 +220,18 @@ const PetAppt: React.FC = () => {
                           window.open(winUrl);
                         }}
                       />
+                      {t.feedback === null && (
+                        <FontAwesomeIcon
+                          className="cursor-pointer mx-2 text-info"
+                          icon={faCommentAlt}
+                          data-toggle="modal"
+                          data-target="#petModal"
+                          onClick={() => {
+                            setMode("FEEDBACK");
+                            setApptId(t.id);
+                          }}
+                        />
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -198,11 +242,13 @@ const PetAppt: React.FC = () => {
       </DataList>
 
       <Modal
-        title={mode === "BOOK" && "Booking an appointment"}
-        submitText={mode === "BOOK" && "Book"}
-        doSubmit={doBookAppt}
+        title={
+          mode === "BOOK" ? "Booking an appointment" : "Give us a feedback"
+        }
+        submitText={mode === "BOOK" ? "Book" : "Save"}
+        doSubmit={mode === "BOOK" ? doBookAppt : doSaveFeedback}
       >
-        {mode === "BOOK" && (
+        {mode === "BOOK" ? (
           <Fragment>
             <div className="form-group">
               <label className="text-secondary">Pet Name</label>
@@ -338,6 +384,47 @@ const PetAppt: React.FC = () => {
                 className="form-control"
                 value={reason}
                 onChange={(ev) => setReason(ev.target.value)}
+              ></textarea>
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Feedback</label>
+              <input
+                type="text"
+                className="form-control"
+                value={feedTitle}
+                onChange={(ev) => setFeedTitle(ev.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Rating</label>
+              <select
+                name="feedrate"
+                title="Rating"
+                className="form-control"
+                value={feedRate}
+                onChange={(ev) => {
+                  setFeedRate(+ev.target.value);
+                }}
+                defaultValue={5}
+              >
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Elaborate here</label>
+              <textarea
+                name="feedelab"
+                rows={5}
+                className="form-control"
+                value={feedDesc}
+                onChange={(ev) => setFeedDesc(ev.target.value)}
               ></textarea>
             </div>
           </Fragment>
