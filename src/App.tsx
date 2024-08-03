@@ -8,10 +8,16 @@ import Error from "./hoc-components/error/Error";
 import GuardedRoute from "./hoc-components/guard/GuardedRoute";
 
 /* JS/TS Import */
-import { URL_LOGIN, URL_SIGNUP, URL_PET_HOME } from "./config/UrlRoute";
+import {
+  URL_LOGIN,
+  URL_SIGNUP,
+  URL_PET_HOME,
+  URL_PET_LANDING,
+} from "./config/UrlRoute";
 import { RootState } from "./store/reducers";
 import Signup from "./components/signup/Signup";
 import Home from "./components/home/Home";
+import Landing from "./components/landing/Landing";
 
 const mapStateToProps = (state: RootState) => ({
   token: state.auth.accessToken,
@@ -23,12 +29,15 @@ type Props = ConnectedProps<typeof connector>;
 
 const App: React.FC<Props> = (props) => (
   <Switch>
-    <Redirect from="/" to={URL_LOGIN} exact />
-    <Route path={URL_LOGIN}>
-      <Login />
+    <Redirect from="/" to={URL_PET_LANDING} exact />
+    <Route path={URL_PET_LANDING}>
+      <Landing />
     </Route>
     <Route path={URL_SIGNUP}>
       <Signup />
+    </Route>
+    <Route path={URL_LOGIN}>
+      <Login />
     </Route>
     <GuardedRoute
       component={Home}

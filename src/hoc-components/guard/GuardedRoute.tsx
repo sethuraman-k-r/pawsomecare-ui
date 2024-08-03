@@ -2,7 +2,7 @@ import * as React from "react";
 import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 
 /* JS Import */
-import { URL_LOGIN } from "../../config/UrlRoute";
+import { URL_LOGIN, URL_PET_LANDING } from "../../config/UrlRoute";
 
 interface GuardedRouteProps {
   component:
@@ -24,7 +24,7 @@ const GuardedRoute = ({
   isAuthenticated ? (
     <Route path={path} component={component} />
   ) : (
-    <Redirect to={URL_LOGIN} />
+    <Redirect to={URL_PET_LANDING} />
   );
 
 export default GuardedRoute;

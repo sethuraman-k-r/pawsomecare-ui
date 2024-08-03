@@ -20,6 +20,7 @@ import {
   URL_PET_ADMIN,
   URL_PET_STAFF,
   URL_PET_USERS,
+  URL_PET_LANDING,
 } from "../../../config/UrlRoute";
 import { RootState } from "../../../store/reducers";
 import { joinArrayToString } from "../../../utils/array.utils";
@@ -47,7 +48,7 @@ const Header: React.FC<Props> = (props) => {
   const doLogout = async () => {
     await Auth.signOut();
     props.deleteAuthToken();
-    history.push(URL_LOGIN);
+    history.push(URL_PET_LANDING);
   };
 
   return (

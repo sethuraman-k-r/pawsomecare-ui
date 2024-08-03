@@ -90,6 +90,40 @@ body {
   background-color: var(--primary) !important;
 }
 
+.bg-dark-primary {
+  background-color: var(--dark-primary) !important;
+}
+
+.border-primary {
+  border-color: var(--primary) !important;
+  border-width: 3px;
+}
+
+.border-dark-primary {
+  border-color: var(--dark-primary) !important;
+  border-width: 3px;
+}
+
+.border-white {
+  border-color: white;
+  border-width: 3px;
+}
+
+.border-primary:hover {
+  color: white !important;
+  background-color: var(--primary) !important;
+}
+
+.border-dark-primary:hover {
+  color: white !important;
+  background-color: var(--dark-primary) !important;
+}
+
+.border-white:hover {
+  color: var(--dark-primary) !important;
+  background-color: white !important;
+}
+
 .text-primary {
   color: var(--primary) !important;
 }

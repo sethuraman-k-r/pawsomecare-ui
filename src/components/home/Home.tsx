@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/reducers";
@@ -38,16 +38,18 @@ const Home: React.FC<Props> = (props) => {
   const history = useHistory();
 
   useEffect(() => {
-    const userRole = props.user.role;
-    if (userRole === "ROLE_ADMIN") {
-      history.push(URL_PET_ADMIN);
-    } else if (
-      userRole === "ROLE_VETERINARIAN" ||
-      userRole === "ROLE_GROOMING"
-    ) {
-      history.push(URL_PET_STAFF);
-    } else {
-      history.push(URL_PET_USERS);
+    if (props.user.role) {
+      const userRole = props.user.role;
+      if (userRole === "ROLE_ADMIN") {
+        history.push(URL_PET_ADMIN);
+      } else if (
+        userRole === "ROLE_VETERINARIAN" ||
+        userRole === "ROLE_GROOMING"
+      ) {
+        history.push(URL_PET_STAFF);
+      } else {
+        history.push(URL_PET_USERS);
+      }
     }
   }, [props.user.role]);
 

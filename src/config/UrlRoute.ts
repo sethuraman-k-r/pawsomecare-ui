@@ -1,6 +1,7 @@
 export const URL_LOGIN = "/login";
 export const URL_SIGNUP = "/signup";
 export const URL_PET_HOME = "/home";
+export const URL_PET_LANDING = "/landing";
 export const URL_PET_PROFILE = "/home/profile";
 export const URL_PET_ADMIN = "/home/admin";
 export const URL_PET_USERS = "/home/users";
