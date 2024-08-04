@@ -8,10 +8,13 @@ export const getReportHtml = (appt: any) => {
   let pres: any = JSON.parse(appt.appointmentDetails.consultDetails);
   let grooms: any = JSON.parse(appt.appointmentDetails.groomDetails);
   let feedback = "";
-  let medicineEl = pres.medicine
-    .map((m: any) => {
-      medicineCost += m.cost;
-      return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let medicineEl =
+    pres !== null
+      ? pres.medicine
+          .filter((g) => Object.keys(g).length > 0)
+          .map((m: any) => {
+            medicineCost += m.cost;
+            return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${m.medicine} (${m.count})</h6>
             <small class="text-body-secondary">
@@ -20,8 +23,9 @@ export const getReportHtml = (appt: any) => {
           </div>
           <span class="text-body-secondary">${m.cost}</span>
         </li>`;
-    })
-    .join("");
+          })
+          .join("")
+      : "";
   medicine = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Medicine</span>
@@ -35,17 +39,21 @@ export const getReportHtml = (appt: any) => {
       </ul>
     </div>`;
 
-  let vaccineEl = pres.vaccine
-    .map((v: any) => {
-      vaccineCost += v.cost;
-      return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let vaccineEl =
+    pres !== null
+      ? pres.vaccine
+          .filter((g) => Object.keys(g).length > 0)
+          .map((v: any) => {
+            vaccineCost += v.cost;
+            return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${v.name}</h6>
           </div>
           <span class="text-body-secondary">${v.cost}</span>
         </li>`;
-    })
-    .join("");
+          })
+          .join("")
+      : "";
   vaccine = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Vaccine</span>
@@ -59,17 +67,21 @@ export const getReportHtml = (appt: any) => {
       </ul>
     </div>`;
 
-  let groomingEl = grooms.grooming
-    .map((g: any) => {
-      groomingCost += g.cost;
-      return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let groomingEl =
+    grooms != null
+      ? grooms.grooming
+          .filter((g) => Object.keys(g).length > 0)
+          .map((g: any) => {
+            groomingCost += g.cost;
+            return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${g.name}</h6>
           </div>
           <span class="text-body-secondary">${g.cost}</span>
         </li>`;
-    })
-    .join("");
+          })
+          .join("")
+      : "";
   grooming = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Grooming</span>
