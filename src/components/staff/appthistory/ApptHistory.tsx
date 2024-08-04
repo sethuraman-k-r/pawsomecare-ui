@@ -44,7 +44,7 @@ const ApptHistory: React.FC = () => {
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <DataList
-        dataLength={petAppts.length}
+        dataLength={petAppts.filter((p) => p.status === "CLOSED").length}
         icon={faHistory}
         placeholder="No history available"
       >
