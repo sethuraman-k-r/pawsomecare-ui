@@ -250,7 +250,9 @@ const Landing: React.FC<Props> = (props) => {
               className="bg-white rounded"
               style={{ filter: "grayscale(100%)" }}
             />
-            <small className="d-block mb-3 text-muted">&copy; 2024</small>
+            <small className="d-block mb-3 text-muted">
+              &copy; Pawsomecare 2024
+            </small>
           </div>
         </div>
       </footer>
