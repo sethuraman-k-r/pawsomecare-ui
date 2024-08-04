@@ -84,36 +84,34 @@ const PetAppt: React.FC = () => {
               <h3>My Appointments</h3>
               <table className="table table-bordered">
                 <tbody>
-                  {petAppts
-                    .filter((p) => p.status !== "CLOSED")
-                    .map((t, i) => (
-                      <tr key={t.id}>
-                        <td
-                          className={`cursor-pointer pet-select ${
-                            appt !== null && appt.id === t.id
-                              ? "pet-select-focus"
-                              : ""
-                          }`}
-                          onClick={() => {
-                            setAppt(t);
-                          }}
+                  {petAppts.map((t, i) => (
+                    <tr key={t.id}>
+                      <td
+                        className={`cursor-pointer pet-select ${
+                          appt !== null && appt.id === t.id
+                            ? "pet-select-focus"
+                            : ""
+                        }`}
+                        onClick={() => {
+                          setAppt(t);
+                        }}
+                      >
+                        <strong>{`${i + 1}. ${
+                          t.pet.petName
+                        } (${t.pet.petCategory.name.toUpperCase()})`}</strong>
+                        <section>{"Owner: " + t.user.username}</section>
+                        <section>
+                          {"Pet Age (in months): " + getMonths(t.pet.dob)}
+                        </section>
+                        <section
+                          className="text-truncate"
+                          style={{ width: "300px" }}
                         >
-                          <strong>{`${i + 1}. ${
-                            t.pet.petName
-                          } (${t.pet.petCategory.name.toUpperCase()})`}</strong>
-                          <section>{"Owner: " + t.user.username}</section>
-                          <section>
-                            {"Pet Age (in months): " + getMonths(t.pet.dob)}
-                          </section>
-                          <section
-                            className="text-truncate"
-                            style={{ width: "300px" }}
-                          >
-                            {t.reason}
-                          </section>
-                        </td>
-                      </tr>
-                    ))}
+                          {t.reason}
+                        </section>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -136,31 +134,8 @@ const PetAppt: React.FC = () => {
                     disabled
                   ></textarea>
                 </div>
-                {appt.isVaccine && (
-                  <div className="form-group">
-                    <label className="text-secondary">Vaccine</label>
-                    <select
-                      name="petvaccine"
-                      title="Vaccine"
-                      className="form-control"
-                      onChange={(ev) => {
-                        setVaccine(+ev.target.value);
-                      }}
-                    >
-                      <option value={-1}></option>
-                      {petVacs.map((s) => (
-                        <option
-                          className="text-capitalize"
-                          value={s.id}
-                          key={s.id}
-                        >
-                          {`${s.name}`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-                {appt.isConsult && (
+
+                {appt.consult && (
                   <Fragment>
                     <div className="form-group">
                       <label className="text-secondary">Medicine</label>
@@ -263,9 +238,32 @@ const PetAppt: React.FC = () => {
                         </div>
                       ))}
                     </div>
+
+                    <div className="form-group">
+                      <label className="text-secondary">Vaccine</label>
+                      <select
+                        name="petvaccine"
+                        title="Vaccine"
+                        className="form-control"
+                        onChange={(ev) => {
+                          setVaccine(+ev.target.value);
+                        }}
+                      >
+                        <option value={-1}></option>
+                        {petVacs.map((s) => (
+                          <option
+                            className="text-capitalize"
+                            value={s.id}
+                            key={s.id}
+                          >
+                            {`${s.name}`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
                   </Fragment>
                 )}
-                {appt.isGrooming && (
+                {appt.groom && (
                   <div className="form-group">
                     <label className="text-secondary">Grooming</label>
                     <select
@@ -304,7 +302,7 @@ const PetAppt: React.FC = () => {
                     className="form-control"
                     value={nextTime}
                     onChange={(ev) => setNextTime(ev.target.value)}
-                    min={new Date(appt.apptTime).toISOString().substr(0, 10)}
+                    min={new Date(appt.apptTime).toISOString().substring(0, 10)}
                   />
                 </div>
               </div>

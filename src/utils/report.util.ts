@@ -5,13 +5,13 @@ export const getReportHtml = (appt: any) => {
   let vaccineCost = 0;
   let grooming = "";
   let groomingCost = 0;
-  let pres: any = JSON.parse(appt.tabletPrescribed);
+  let pres: any = JSON.parse(appt.appointmentDetails.consultDetails);
+  let grooms: any = JSON.parse(appt.appointmentDetails.groomDetails);
   let feedback = "";
-  if (appt.isConsult) {
-    let medicineEl = pres.medicine
-      .map((m: any) => {
-        medicineCost += m.cost;
-        return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let medicineEl = pres.medicine
+    .map((m: any) => {
+      medicineCost += m.cost;
+      return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${m.medicine} (${m.count})</h6>
             <small class="text-body-secondary">
@@ -20,9 +20,9 @@ export const getReportHtml = (appt: any) => {
           </div>
           <span class="text-body-secondary">${m.cost}</span>
         </li>`;
-      })
-      .join("");
-    medicine = `<div>
+    })
+    .join("");
+  medicine = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Medicine</span>
       </h4>
@@ -34,21 +34,19 @@ export const getReportHtml = (appt: any) => {
         </li>
       </ul>
     </div>`;
-  }
 
-  if (appt.isVaccine) {
-    let vaccineEl = pres.vaccine
-      .map((v: any) => {
-        vaccineCost += v.cost;
-        return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let vaccineEl = pres.vaccine
+    .map((v: any) => {
+      vaccineCost += v.cost;
+      return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${v.name}</h6>
           </div>
           <span class="text-body-secondary">${v.cost}</span>
         </li>`;
-      })
-      .join("");
-    vaccine = `<div>
+    })
+    .join("");
+  vaccine = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Vaccine</span>
       </h4>
@@ -60,21 +58,19 @@ export const getReportHtml = (appt: any) => {
         </li>
       </ul>
     </div>`;
-  }
 
-  if (appt.isGrooming) {
-    let groomingEl = pres.grooming
-      .map((g: any) => {
-        groomingCost += g.cost;
-        return `<li class="list-group-item d-flex justify-content-between lh-sm">
+  let groomingEl = grooms.grooming
+    .map((g: any) => {
+      groomingCost += g.cost;
+      return `<li class="list-group-item d-flex justify-content-between lh-sm">
           <div>
             <h6 class="my-0 text-capitalize">${g.name}</h6>
           </div>
           <span class="text-body-secondary">${g.cost}</span>
         </li>`;
-      })
-      .join("");
-    grooming = `<div>
+    })
+    .join("");
+  grooming = `<div>
       <h4 class="d-flex justify-content-between align-items-center mb-3">
         <span class="text-dark">Grooming</span>
       </h4>
@@ -86,15 +82,14 @@ export const getReportHtml = (appt: any) => {
         </li>
       </ul>
     </div>`;
-  }
 
-  if (appt.feedback != null) {
+  if (appt.appointmentDetails.feedback != null) {
     feedback = `<hr />
     <div>
-      <h4 class="mb-3">Feedback - Rating ${appt.feedback.rate}/5</h4>
+      <h4 class="mb-3">Feedback - Rating ${appt.appointmentDetails.feedback.rate}/5</h4>
       <div class="form-floating mb-3">
-        <p class="lead">${appt.feedback.title}</p>
-        <p>${appt.feedback.description}</p>
+        <p class="lead">${appt.appointmentDetails.feedback.title}</p>
+        <p>${appt.appointmentDetails.feedback.description}</p>
       </div>
     </div>`;
   }
@@ -232,7 +227,7 @@ export const getReportHtml = (appt: any) => {
                   type="text"
                   readonly
                   class="form-control-plaintext"
-                  value="${appt.staffDetails.username}"
+                  value="${appt.staffDetails.map((s) => s.username).join(", ")}"
                 />
                 <label>Doctor Name</label>
               </div>
@@ -241,7 +236,14 @@ export const getReportHtml = (appt: any) => {
                   type="text"
                   readonly
                   class="form-control-plaintext"
-                  value="${appt.staff.id}"
+                  value="${[
+                    appt.appointmentDetails.veterinaryStaff != null
+                      ? appt.appointmentDetails.veterinaryStaff.id
+                      : "",
+                    appt.appointmentDetails.groomingStaff != null
+                      ? appt.appointmentDetails.groomingStaff.id
+                      : "",
+                  ].join(", ")}"
                 />
                 <label>Registration No</label>
               </div>
@@ -250,7 +252,14 @@ export const getReportHtml = (appt: any) => {
                   type="text"
                   readonly
                   class="form-control-plaintext"
-                  value="${appt.staff.consultFee}"
+                value="${[
+                  appt.appointmentDetails.veterinaryStaff != null
+                    ? appt.appointmentDetails.veterinaryStaff.consultFee
+                    : "",
+                  appt.appointmentDetails.groomingStaff != null
+                    ? appt.appointmentDetails.groomingStaff.consultFee
+                    : "",
+                ].join(", ")}"
                 />
                 <label>Doctor Fee</label>
               </div>
@@ -277,12 +286,15 @@ export const getReportHtml = (appt: any) => {
             <div>
               <h4 class="mb-3">Analysis & Other Details</h4>
               <div class="form-floating mb-3">
-                <input
-                  type="text"
+                <textarea
+                  rows="5"
                   readonly
                   class="form-control-plaintext"
-                  value="${appt.consultDetail ? appt.consultDetail : "-"}"
-                />
+                >${
+                  appt.appointmentDetails.consultDetail
+                    ? appt.appointmentDetails.consultDetail
+                    : "-"
+                }</textarea>
                 <label>Doctor Analysis</label>
               </div>
               <div class="form-floating mb-3">
@@ -300,7 +312,9 @@ export const getReportHtml = (appt: any) => {
           <div class="col-md-5 col-lg-4 order-md-last">
             <h3 class="d-flex justify-content-between align-items-center mb-3">
               <span class="text-dark">Total Amount</span>
-              <span class="text-primary">${appt.amount}</span>
+              <span class="text-primary">${
+                appt.appointmentDetails.amount
+              }</span>
             </h3>
             ${medicine}
             ${vaccine}
