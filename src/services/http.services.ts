@@ -552,8 +552,9 @@ export function getPetServices(): Promise<any> {
 export function bookPetAppt(
   petId: number,
   clinicId: number,
-  staffId: number,
-  service: string,
+  vetStaffId: number,
+  grmStaffId: number,
+  services: Array<string>,
   apptTime: string,
   reason: string,
   grooms: Array<number>
@@ -565,8 +566,9 @@ export function bookPetAppt(
         {
           petId,
           clinicId,
-          staffId,
-          service,
+          vetStaffId,
+          grmStaffId,
+          services,
           apptTime,
           reason,
           grooms,

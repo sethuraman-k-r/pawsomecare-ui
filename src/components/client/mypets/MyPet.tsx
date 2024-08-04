@@ -297,6 +297,7 @@ const MyPet: React.FC = () => {
                     onChange={(ev) => doUpdateFields(ev, setDob)}
                     required
                     min={"1970-01-01"}
+                    max={new Date().toISOString().substring(0, 10)}
                   />
                 </div>
                 <div className="form-group">

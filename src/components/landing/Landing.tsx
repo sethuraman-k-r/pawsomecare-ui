@@ -39,11 +39,7 @@ const Landing: React.FC<Props> = (props) => {
       indices.push([i, i + 2].filter((r) => r !== undefined || r !== null));
     }
 
-    console.log(indices);
-
     const result = [...indices].map((idxs) => data.slice(...idxs));
-
-    console.log(result);
 
     return result;
   };
@@ -54,7 +50,6 @@ const Landing: React.FC<Props> = (props) => {
       if (["ROLE_VETERINARIAN", "ROLE_GROOMING"].includes(props.user.role)) {
         setServices(processData(HOME_DATA.filter((d) => d.role === "STAFF")));
       } else if (["ROLE_ADMIN"].includes(props.user.role)) {
-        console.log(processData(HOME_DATA.filter((d) => d.role === "ADMIN")));
         setServices(processData(HOME_DATA.filter((d) => d.role === "ADMIN")));
       } else {
         setServices(processData(HOME_DATA.filter((d) => d.role === "CLIENT")));

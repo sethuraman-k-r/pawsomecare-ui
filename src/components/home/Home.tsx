@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
 import { RootState } from "../../store/reducers";

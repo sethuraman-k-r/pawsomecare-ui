@@ -2,7 +2,7 @@ import * as React from "react";
 import { Route, Redirect, RouteComponentProps } from "react-router-dom";
 
 /* JS Import */
-import { URL_LOGIN, URL_PET_LANDING } from "../../config/UrlRoute";
+import { URL_PET_LANDING } from "../../config/UrlRoute";
 
 interface GuardedRouteProps {
   component:

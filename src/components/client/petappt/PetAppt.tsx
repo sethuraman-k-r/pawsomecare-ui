@@ -42,9 +42,9 @@ const PetAppt: React.FC = () => {
   const [feedRate, setFeedRate] = useState<number>(5);
   const [petId, setPetId] = useState<number>(-1);
   const [clinicId, setClinicId] = useState<number>(-1);
-  const [staffId, setStaffId] = useState<number>(-1);
-  const [staffRole, setStaffRole] = useState<string>("");
-  const [service, setService] = useState<string>("");
+  const [vetStaffId, setVetStaffId] = useState<number>(-1);
+  const [grmStaffId, setGrmStaffId] = useState<number>(-1);
+  const [services, setServices] = useState<Array<string>>([]);
   const [grooms, setGrooms] = useState<Array<number>>([]);
   const [apptTime, setApptTime] = useState<string>("");
   const [reason, setReason] = useState<string>("");
@@ -81,8 +81,9 @@ const PetAppt: React.FC = () => {
       await bookPetAppt(
         petId,
         clinicId,
-        staffId,
-        service,
+        vetStaffId,
+        grmStaffId,
+        services,
         apptTime,
         reason,
         grooms
@@ -91,11 +92,11 @@ const PetAppt: React.FC = () => {
       setPets([]);
       setPetId(-1);
       setClinicId(-1);
-      setStaffId(-1);
-      setService("");
+      setVetStaffId(-1);
+      setGrmStaffId(-1);
+      setServices([]);
       setGrooms([]);
       setApptTime("");
-      setStaffRole("");
       setReason("");
       setApptId(-1);
       setFeedTitle("");
@@ -113,11 +114,11 @@ const PetAppt: React.FC = () => {
       setPets([]);
       setPetId(-1);
       setClinicId(-1);
-      setStaffId(-1);
-      setService("");
+      setVetStaffId(-1);
+      setGrmStaffId(-1);
+      setServices([]);
       setGrooms([]);
       setApptTime("");
-      setStaffRole("");
       setReason("");
       setApptId(-1);
       setFeedTitle("");
@@ -128,10 +129,12 @@ const PetAppt: React.FC = () => {
     }
   };
 
-  const newPS = (): any[] => {
-    return staffRole === "GROOMING"
-      ? petServices.filter((s) => s.serviceName === "GROOMING")
-      : petServices.filter((s) => s.serviceName !== "GROOMING");
+  const getStaffByRole = (role: string) => {
+    return petStaffs.filter((s) =>
+      s.authorities
+        .map((a: any) => a["authority"].replace("ROLE_", ""))
+        .includes(role)
+    );
   };
 
   return (
@@ -172,7 +175,7 @@ const PetAppt: React.FC = () => {
                   <th scope="col">Clinic</th>
                   <th scope="col">Staff</th>
                   <th scope="col">Appointment Time</th>
-                  <th scope="col">Service</th>
+                  <th scope="col">Services</th>
                   <th scope="col">Cost</th>
                   <th scope="col">Status</th>
                   <th scope="col">Action</th>
@@ -190,10 +193,18 @@ const PetAppt: React.FC = () => {
                       <strong>{t.clinic.name}</strong>
                       <address>{t.clinic.address}</address>
                     </td>
-                    <td>{t.staffDetails.username}</td>
+                    <td>
+                      {t.staffDetails.map((s: any) => s.username).join(", ")}
+                    </td>
                     <td>{new Date(t.apptTime).toLocaleString()}</td>
-                    <td>{t.service.serviceName}</td>
-                    <td>{t.status === "CLOSED" ? t.amount : "-"}</td>
+                    <td>
+                      {t.services.map((s: any) => s.serviceName).join("\n")}
+                    </td>
+                    <td>
+                      {t.status === "CLOSED"
+                        ? t.appointmentDetails.amount
+                        : "-"}
+                    </td>
                     <td className="text-capitalize">
                       <button
                         className={`btn ${
@@ -281,10 +292,11 @@ const PetAppt: React.FC = () => {
                   if (+ev.target.value !== -1) {
                     const staffs = await getClinicStaffs(+ev.target.value);
                     setPetStaffs(staffs);
+                    getStaffByRole();
                   }
                 }}
               >
-                <option value={-1}></option>
+                <option value={-1}>{""}</option>
                 {petClinics.map((c) => (
                   <option className="text-capitalize" value={c.id} key={c.id}>
                     {c.name + " - " + c.address}
@@ -292,47 +304,73 @@ const PetAppt: React.FC = () => {
                 ))}
               </select>
             </div>
-            <div className="form-group">
-              <label className="text-secondary">Staff</label>
-              <select
-                name="petstaff"
-                title="Staff"
-                className="form-control"
-                value={staffId}
-                onChange={(ev) => {
-                  setStaffId(+ev.target.value);
-                  setStaffRole(
-                    petStaffs
-                      .filter((s) => s.staff.id === +ev.target.value)[0]
-                      .authorities.map((a) =>
-                        a["authority"].replace("ROLE_", "")
-                      )[0]
-                  );
-                }}
-              >
-                <option value={-1}></option>
-                {petStaffs.map((s) => (
-                  <option
-                    className="text-capitalize"
-                    value={s.staff.id}
-                    key={s.id}
-                  >
-                    {`${s.username} (${s.staff.id}) - Fee: ${s.staff.consultFee}`}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {services.some((v) =>
+              ["CONSULTATION", "CHECKUP", "VACCINATION"].includes(v)
+            ) && (
+              <div className="form-group">
+                <label className="text-secondary">Veterinarian Staff</label>
+                <select
+                  name="petvetstaff"
+                  title="Veterinarian Staff"
+                  className="form-control"
+                  value={vetStaffId}
+                  onChange={(ev) => {
+                    setVetStaffId(+ev.target.value);
+                  }}
+                >
+                  <option value={-1}></option>
+                  {getStaffByRole("VETERINARIAN").map((s) => (
+                    <option
+                      className="text-capitalize"
+                      value={s.staff.id}
+                      key={s.id}
+                    >
+                      {`${s.username} (${s.staff.id}) - Fee: ${s.staff.consultFee}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+            {services.length > 0 && services.includes("GROOMING") && (
+              <div className="form-group">
+                <label className="text-secondary">Grooming Staff</label>
+                <select
+                  name="petgrmstaff"
+                  title="Grooming Staff"
+                  className="form-control"
+                  value={grmStaffId}
+                  onChange={(ev) => {
+                    setGrmStaffId(+ev.target.value);
+                  }}
+                >
+                  <option value={-1}></option>
+                  {getStaffByRole("GROOMING").map((s) => (
+                    <option
+                      className="text-capitalize"
+                      value={s.staff.id}
+                      key={s.id}
+                    >
+                      {`${s.username} (${s.staff.id}) - Fee: ${s.staff.consultFee}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div className="form-group">
               <label className="text-secondary">Service</label>
               <select
                 name="petservice"
                 title="Service"
                 className="form-control"
-                value={service}
-                onChange={(ev) => setService(ev.target.value)}
+                onChange={(ev) => {
+                  const options = [...ev.target.selectedOptions];
+                  const values = options.map((option) => option.value);
+                  setServices(values);
+                }}
+                defaultValue={[...services.map((g) => g.toString())]}
+                multiple
               >
-                <option value={""}></option>
-                {newPS().map((s) => (
+                {petServices.map((s) => (
                   <option
                     className="text-capitalize"
                     value={s.serviceName}
@@ -343,7 +381,7 @@ const PetAppt: React.FC = () => {
                 ))}
               </select>
             </div>
-            {service === "GROOMING" && (
+            {services.length > 0 && services.includes("GROOMING") && (
               <div className="form-group">
                 <label className="text-secondary">Grooming</label>
                 <select
@@ -404,7 +442,6 @@ const PetAppt: React.FC = () => {
                 name="feedrate"
                 title="Rating"
                 className="form-control"
-                value={feedRate}
                 onChange={(ev) => {
                   setFeedRate(+ev.target.value);
                 }}

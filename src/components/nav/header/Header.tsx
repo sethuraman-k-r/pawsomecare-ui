@@ -14,7 +14,6 @@ import {
 /* JS Import */
 import { deleteAuthToken } from "../../../store/actions";
 import {
-  URL_LOGIN,
   URL_PET_PROFILE,
   URL_PET_PASSWORD,
   URL_PET_ADMIN,
