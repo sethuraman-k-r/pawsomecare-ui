@@ -5,7 +5,7 @@ import Backdrop from "../../../hoc-components/UI/backdrop/Backdrop";
 
 /* CSS Import */
 import "./ApptHistory.css";
-import { getStaffPetAppointments } from "../../../services/http.services";
+import { getStaffPetAppointmentsHistory } from "../../../services/http.services";
 import AdminLayout from "../../../hoc-components/UI/adminlayout/AdminLayout";
 import DataList from "../../../hoc-components/UI/datalist/DataList";
 import { faHistory } from "@fortawesome/free-solid-svg-icons";
@@ -19,7 +19,7 @@ const ApptHistory: React.FC = () => {
   useEffect(() => {
     async function getPetAppts() {
       try {
-        const appts: any = await getStaffPetAppointments();
+        const appts: any = await getStaffPetAppointmentsHistory();
         setPetAppts(appts);
         setIsVerifying(false);
       } catch (err) {
@@ -44,7 +44,7 @@ const ApptHistory: React.FC = () => {
     <Fragment>
       {isVerifying && <Backdrop message="Please wait for a while..." />}
       <DataList
-        dataLength={petAppts.filter((p) => p.status === "CLOSED").length}
+        dataLength={petAppts.length}
         icon={faHistory}
         placeholder="No history available"
       >

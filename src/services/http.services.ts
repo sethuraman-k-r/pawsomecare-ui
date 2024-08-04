@@ -649,6 +649,22 @@ export function getStaffPetAppointments(): Promise<any> {
   });
 }
 
+export function getStaffPetAppointmentsHistory(): Promise<any> {
+  return new Promise((resolve, reject) => {
+    axios
+      .get("staff/pet/appointments/history", {
+        headers: {
+          Authorization: `Bearer ${Auth.getToken()}`,
+        },
+      })
+      .then((response) => response.data)
+      .then((value) => {
+        resolve(value);
+      })
+      .catch((err) => reject(err));
+  });
+}
+
 export function adoptNewPet(petId: number): Promise<any> {
   return new Promise((resolve, reject) => {
     axios

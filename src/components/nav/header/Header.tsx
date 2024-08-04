@@ -9,6 +9,7 @@ import {
   faUserCog,
   faCalendarCheck,
   faPaw,
+  faHome,
 } from "@fortawesome/free-solid-svg-icons";
 
 /* JS Import */
@@ -178,6 +179,26 @@ const Header: React.FC<Props> = (props) => {
           flexGrow: 1,
         }}
       >
+        <button
+          type="button"
+          onClick={() => {
+            history.push(URL_PET_LANDING);
+          }}
+          className={joinArrayToString([
+            "list-group-item list-group-item-action",
+            props.sidebar ? "text-center" : "",
+          ])}
+        >
+          <span
+            className={joinArrayToString([
+              "badge",
+              props.sidebar ? "" : "mr-3",
+            ])}
+          >
+            <FAIcon icon={faHome} size={props.sidebar ? "2x" : "1x"} />
+          </span>
+          {!props.sidebar && "Home"}
+        </button>
         <button
           type="button"
           onClick={doLogout}
