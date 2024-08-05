@@ -104,6 +104,15 @@ const MyPet: React.FC = () => {
         icon={faPaw}
         placeholder="You no longer own any pets"
         secPlaceholder={'To adopt a pet, visit "Adopt Pets"'}
+        actionIcon={faPlusCircle}
+        actionText={"Add Pet"}
+        actionCallback={() => {
+          setMode("ADD");
+          setName("");
+          setDob("");
+          setWeight(0);
+          setGender("");
+        }}
       >
         <div className="col-12 my-4">
           <div className="form-group">

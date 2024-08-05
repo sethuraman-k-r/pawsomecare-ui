@@ -231,7 +231,7 @@ const PetAppt: React.FC = () => {
                           window.open(winUrl);
                         }}
                       />
-                      {t.feedback === null && t.status === "CLOSED" && (
+                      {t.appointmentDetails.feedback === null && t.status === "CLOSED" && (
                         <FontAwesomeIcon
                           className="cursor-pointer mx-2 text-info"
                           icon={faCommentAlt}
