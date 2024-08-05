@@ -142,8 +142,14 @@ const Landing: React.FC<Props> = (props) => {
         <div className="col-md-5 p-lg-5 mx-auto my-5">
           <h1 className="display-4 font-weight-normal">Pawsomecare</h1>
           <p className="lead font-weight-normal">
-            And an even wittier subheading to boot. Jumpstart your marketing
-            efforts with this example based on Apple’s marketing pages.
+            At Pawsome Care, we are dedicated to providing exceptional care for
+            your furry family members. Whether it's vaccination and veterinary
+            appointments, pet adoption services, licensing, or booking for
+            grooming and pet care, our team is here to ensure your pets receive
+            the best. With several clinics located in London, Ontario, Canada,
+            we are committed to making pet care accessible and convenient for
+            our community. Trust us to keep your pets happy, healthy, and
+            well-groomed. Your pet's well-being is our passion.
           </p>
         </div>
       </div>
