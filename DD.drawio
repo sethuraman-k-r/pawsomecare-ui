@@ -1,0 +1,160 @@
+<mxfile host="65bd71144e">
+    <diagram id="vDc_kn_AQiMOiF1LtpVh" name="Page-1">
+        <mxGraphModel dx="1972" dy="854" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="95" value="Pawsomecare" style="swimlane;whiteSpace=wrap;html=1;strokeColor=default;strokeWidth=4;" vertex="1" parent="1">
+                    <mxGeometry x="30" y="200" width="1740" height="820" as="geometry"/>
+                </mxCell>
+                <mxCell id="142" value="Browser&lt;br&gt;&lt;br&gt;&lt;u&gt;Client Devices&lt;br&gt;&lt;/u&gt;Laptop&lt;br&gt;Mobile&amp;nbsp;" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="95">
+                    <mxGeometry x="55" y="365" width="110" height="110" as="geometry"/>
+                </mxCell>
+                <mxCell id="143" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="95" source="142" target="145">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="-125" y="15" as="sourcePoint"/>
+                        <mxPoint x="-325" y="30" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="144" value="Java Bundle - Included both Frontend and Backend" style="swimlane;whiteSpace=wrap;html=1;strokeColor=default;strokeWidth=4;" vertex="1" parent="95">
+                    <mxGeometry x="275" y="105" width="920" height="610" as="geometry"/>
+                </mxCell>
+                <mxCell id="145" value="REST Services" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="144">
+                    <mxGeometry x="40" y="276.25" width="77.5" height="77.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="146" value="Business Layer - Pawsomecare" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="144">
+                    <mxGeometry x="240" y="60" width="640" height="510" as="geometry"/>
+                </mxCell>
+                <mxCell id="147" value="Admin Features" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="146">
+                    <mxGeometry x="220" y="40" width="400" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="148" value="Add/Update Clinic" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="10" y="30" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="149" value="Add Staff" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="10" y="80" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="150" value="Add/Update Pet Types" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="10" y="140" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="151" value="Add Unadopt Pets" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="145" y="30" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="152" value="Add/Update Grooming Services" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="280" y="30" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="153" value="Add/Update Medicine" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="145" y="80" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="154" value="Add/Update Vaccine" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="145" y="140" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="155" value="Approve Pet License" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="147">
+                    <mxGeometry x="280" y="80" width="110" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="156" value="User Registration" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="146">
+                    <mxGeometry x="40" y="40" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="157" value="User Login" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="146">
+                    <mxGeometry x="40" y="90" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="158" value="Staff Features" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="146">
+                    <mxGeometry x="420" y="280" width="200" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="159" value="View Appointments" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="158">
+                    <mxGeometry x="10" y="30" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="160" value="View Appointment History" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="158">
+                    <mxGeometry x="10" y="90" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="161" value="Take and Finish the Appointment" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="158">
+                    <mxGeometry x="10" y="150" width="180" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="162" value="Update User Details" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;strokeWidth=4;" vertex="1" parent="146">
+                    <mxGeometry x="40" y="140" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="163" value="Change Password" style="rounded=1;whiteSpace=wrap;html=1;strokeColor=default;strokeWidth=4;" vertex="1" parent="146">
+                    <mxGeometry x="40" y="190" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="164" value="Client Features" style="swimlane;whiteSpace=wrap;html=1;" vertex="1" parent="146">
+                    <mxGeometry x="10" y="280" width="400" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="165" value="Add/Update Pet Details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="30" y="31" width="115" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="166" value="Adopt New Pets" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="30" y="91" width="115" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="167" value="Apply Pet License" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="179" y="31" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="168" value="View/Download Pet License" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="30" y="151" width="115" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="169" value="Book Pet Appointment" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="179" y="91" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="170" value="Add Feedback to Appointment" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="164">
+                    <mxGeometry x="179" y="151" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="171" value="View/Download Appointment Details" style="rounded=1;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="164">
+                    <mxGeometry x="290" y="91" width="120" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="172" value="" style="endArrow=classic;startArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="144">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="117.5" y="310" as="sourcePoint"/>
+                        <mxPoint x="240" y="310.5" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="173" value="" style="swimlane;startSize=0;strokeColor=default;strokeWidth=4;" vertex="1" parent="95">
+                    <mxGeometry x="1305" y="160" width="380" height="500" as="geometry"/>
+                </mxCell>
+                <mxCell id="174" value="Maintain User details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="30" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="175" value="Main Clinic Services" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="30" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="176" value="Maintain Medicine Records" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="110" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="177" value="Main Vaccine Records" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="110" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="178" value="Main Pet Details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="180" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="179" value="Maintain Pet Owner Details" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="180" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="180" value="Maintain Pet Licenses" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="250" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="181" value="Maintain Appointment Records" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="250" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="182" value="Maintain Appointment Feedback" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="330" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="183" value="Maintain Grooming Services" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="330" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="184" value="Maintain Pet Types" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="40" y="410" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="185" value="Maintain Grooming Services" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="173">
+                    <mxGeometry x="210" y="410" width="130" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="186" value="Database" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;strokeWidth=4;" vertex="1" parent="173">
+                    <mxGeometry x="160" y="460" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="187" value="" style="endArrow=classic;startArrow=classic;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="95" target="173">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="1195" y="410" as="sourcePoint"/>
+                        <mxPoint x="915" y="365" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
