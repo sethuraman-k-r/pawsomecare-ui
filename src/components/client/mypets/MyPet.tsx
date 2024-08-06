@@ -107,6 +107,7 @@ const MyPet: React.FC = () => {
         actionIcon={faPlusCircle}
         actionText={"Add Pet"}
         actionCallback={() => {
+          console.log("NICE COMING");
           setMode("ADD");
           setName("");
           setDob("");
@@ -224,132 +225,128 @@ const MyPet: React.FC = () => {
               </tbody>
             </table>
           </div>
-
-          <Modal
-            title={mode === "EDIT" ? "Update Pet" : "Add New Pet"}
-            submitText={mode === "EDIT" ? "Update" : "Add Pet"}
-            doSubmit={doUpdatePet}
-          >
-            {mode === "EDIT" ? (
-              <Fragment>
-                <div className="form-group">
-                  <label className="text-secondary">Pet #</label>
-                  <input
-                    type="text"
-                    disabled
-                    className="form-control"
-                    value={petId}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Pet Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={petName}
-                    onChange={(ev) => doUpdateFields(ev, setPetName)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Pet Weight</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={petWeight}
-                    onChange={(ev) => setPetWeight(ev.target.valueAsNumber)}
-                    required
-                  />
-                </div>
-              </Fragment>
-            ) : (
-              <Fragment>
-                <div className="form-group">
-                  <label className="text-secondary">Pet Name</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={name}
-                    onChange={(ev) => doUpdateFields(ev, setName)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Pet Type</label>
-                  <select
-                    name="pettype"
-                    className="form-control text-capitalize"
-                    title="Pet Type"
-                    onChange={(ev) => setType(+ev.target.value)}
-                    required
-                  >
-                    <option value="-1"></option>
-                    {categories
-                      .filter((c: any) => c.isActive)
-                      .map((c, i) => (
-                        <option
-                          value={c.id}
-                          key={i}
-                          className="text-capitalize"
-                        >
-                          {c.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Date of Birth</label>
-                  <input
-                    type="date"
-                    className="form-control"
-                    value={dob}
-                    onChange={(ev) => doUpdateFields(ev, setDob)}
-                    required
-                    min={"1970-01-01"}
-                    max={new Date().toISOString().substring(0, 10)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Gender</label>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      className="form-check-input"
-                      name="gender"
-                      value={"MALE"}
-                      onChange={(ev) => doUpdateFields(ev, setGender)}
-                      required
-                    />
-                    <label className="text-secondary form-check-label">M</label>
-                  </div>
-                  <div className="form-check">
-                    <input
-                      type="radio"
-                      className="form-check-input"
-                      name="gender"
-                      value={"FEMALE"}
-                      onChange={(ev) => doUpdateFields(ev, setGender)}
-                      required
-                    />
-                    <label className="text-secondary form-check-label">F</label>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label className="text-secondary">Weight (in grams)</label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    value={weight}
-                    onChange={(ev) => setWeight(ev.target.valueAsNumber)}
-                    required
-                    min={5}
-                  />
-                </div>
-              </Fragment>
-            )}
-          </Modal>
         </div>
       </DataList>
+
+      <Modal
+        title={mode === "EDIT" ? "Update Pet" : "Add New Pet"}
+        submitText={mode === "EDIT" ? "Update" : "Add Pet"}
+        doSubmit={doUpdatePet}
+      >
+        {mode === "EDIT" ? (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Pet #</label>
+              <input
+                type="text"
+                disabled
+                className="form-control"
+                value={petId}
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Pet Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={petName}
+                onChange={(ev) => doUpdateFields(ev, setPetName)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Pet Weight</label>
+              <input
+                type="number"
+                className="form-control"
+                value={petWeight}
+                onChange={(ev) => setPetWeight(ev.target.valueAsNumber)}
+                required
+              />
+            </div>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <div className="form-group">
+              <label className="text-secondary">Pet Name</label>
+              <input
+                type="text"
+                className="form-control"
+                value={name}
+                onChange={(ev) => doUpdateFields(ev, setName)}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Pet Type</label>
+              <select
+                name="pettype"
+                className="form-control text-capitalize"
+                title="Pet Type"
+                onChange={(ev) => setType(+ev.target.value)}
+                required
+              >
+                <option value="-1"></option>
+                {categories
+                  .filter((c: any) => c.isActive)
+                  .map((c, i) => (
+                    <option value={c.id} key={i} className="text-capitalize">
+                      {c.name}
+                    </option>
+                  ))}
+              </select>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Date of Birth</label>
+              <input
+                type="date"
+                className="form-control"
+                value={dob}
+                onChange={(ev) => doUpdateFields(ev, setDob)}
+                required
+                min={"1970-01-01"}
+                max={new Date().toISOString().substring(0, 10)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Gender</label>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  name="gender"
+                  value={"MALE"}
+                  onChange={(ev) => doUpdateFields(ev, setGender)}
+                  required
+                />
+                <label className="text-secondary form-check-label">M</label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  className="form-check-input"
+                  name="gender"
+                  value={"FEMALE"}
+                  onChange={(ev) => doUpdateFields(ev, setGender)}
+                  required
+                />
+                <label className="text-secondary form-check-label">F</label>
+              </div>
+            </div>
+            <div className="form-group">
+              <label className="text-secondary">Weight (in grams)</label>
+              <input
+                type="number"
+                className="form-control"
+                value={weight}
+                onChange={(ev) => setWeight(ev.target.valueAsNumber)}
+                required
+                min={5}
+              />
+            </div>
+          </Fragment>
+        )}
+      </Modal>
     </Fragment>
   );
 };
