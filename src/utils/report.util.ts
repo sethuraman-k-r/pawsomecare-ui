@@ -67,6 +67,16 @@ export const getReportHtml = (appt: any) => {
       </ul>
     </div>`;
 
+  const getMonths = (dob: string) => {
+    let diff = (new Date().getTime() - new Date(dob).getTime()) / 1000;
+    diff /= 60 * 60 * 24 * 7 * 4;
+    let months = Math.abs(Math.round(diff));
+    if (months >= 12) {
+      return `${Math.abs(Math.round(months/12))} Years`;
+    }
+    return `${months} Months`;
+  };
+
   let groomingEl =
     grooms != null
       ? grooms.grooming
@@ -181,7 +191,7 @@ export const getReportHtml = (appt: any) => {
                     type="text"
                     readonly
                     class="form-control-plaintext"
-                    value="name@example.com"
+                    value="${getMonths(appt.pet.dob)}"
                   />
                   <label>Age</label>
                 </div>

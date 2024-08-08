@@ -298,11 +298,11 @@ const PetAppt: React.FC = () => {
                 <div className="form-group">
                   <label className="text-secondary">Next Visit Time</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     className="form-control"
                     value={nextTime}
                     onChange={(ev) => setNextTime(ev.target.value)}
-                    min={new Date(appt.apptTime).toISOString().substring(0, 10)}
+                    min={new Date(appt.apptTime).toISOString().substring(0, 19)}
                   />
                 </div>
               </div>

@@ -239,9 +239,9 @@ const ApptHistory: React.FC = () => {
                 <div className="form-group">
                   <label className="text-secondary">Next Visit Time</label>
                   <input
-                    type="date"
+                    type="datetime-local"
                     className="form-control"
-                    value={appt.nextVisitSuggest.substr(0, 10)}
+                    value={appt.nextVisitSuggest.substr(0, 19)}
                     disabled
                   />
                 </div>
